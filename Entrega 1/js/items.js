@@ -6,26 +6,11 @@ var geometry, material, mesh;
 var ball;
 
 
-function createBall(x, y, z) {
-    'use strict';
-    
-    ball = new THREE.Object3D();
-    ball.userData = { jumping: true, step: 0 };
-    
-    material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
-    geometry = new THREE.SphereGeometry(4, 10, 10);
-    mesh = new THREE.Mesh(geometry, material);
-    
-    ball.add(mesh);
-    ball.position.set(x, y, z);
-    
-    scene.add(ball);
-}
 
 function addTableLeg(obj, x, y, z) {
     'use strict';
 
-    geometry = new THREE.CubeGeometry(2, 6, 2);
+    geometry = new THREE.CubeGeometry(2, 15, 2);
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(x, y - 3, z);
     obj.add(mesh);
@@ -46,7 +31,7 @@ function createTable(x, y, z) {
     
     material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
    
-    addTableTop(table, 0, 0, 0);
+    addTableTop(table, 0, 5, 0);
     addTableLeg(table, -25, -1, -8);
     addTableLeg(table, -25, -1, 8);
     addTableLeg(table, 25, -1, 8);
@@ -63,16 +48,21 @@ function createTable(x, y, z) {
 function createChairLeg(obj, x, y, z){
     'use strict';
 
-   /* geometry = new THREE.CubeGeometry(2, 6, 2);
+    geometry = new THREE.CubeGeometry(2, 6, 2);
     mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(x, y - 3, z);
-    obj.add(mesh);*/
+    mesh.position.set(x, y, z);
+    obj.add(mesh);
 
 }
 
 //Function used to create the chair's Wheels to simplify and encapsulate code
 function createChairWheel(obj, x, y, z){
     'use strict';
+
+    geometry = new THREE.TorusGeometry( .5, .1, 20, 60);
+    mesh = new THREE.Mesh(geometry, material);
+    mesh.position.set(x, y, z);
+    obj.add(mesh);
 
 }
 
@@ -81,7 +71,7 @@ function createChairWheel(obj, x, y, z){
 function createChairBackSeat(obj, x, y, z){
     'use strict';
 
-    geometry = new THREE.CubeGeometry(10, 10, 5);
+    geometry = new THREE.CubeGeometry(10, 10, 2);
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(x, y, z);
     obj.add(mesh);
@@ -91,7 +81,7 @@ function createChairBackSeat(obj, x, y, z){
 function createChairSeat(obj, x, y, z){
     'use strict';
 
-    geometry = new THREE.CubeGeometry(10, 5, 10);
+    geometry = new THREE.CubeGeometry(10, 2, 10);
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(x, y, z);
     obj.add(mesh); 
@@ -107,17 +97,17 @@ function createChair(x, y, z){
     
     material = new THREE.MeshBasicMaterial({ color: 0xff9100, wireframe: true });
 
-    createChairSeat(chair, 10, 5, 10);
-    createChairBackSeat(chair, 10, 10, 15);
-    createChairLeg(chair, 0, 0, 0);
-    createChairLeg(chair, 0, 0, 0);
-    createChairLeg(chair, 0, 0, 0);
-    createChairLeg(chair, 0, 0, 0);
-    createChairWheel(chair, 0, 0, 0);
-    createChairWheel(chair, 0, 0, 0);
-    createChairWheel(chair, 0, 0, 0);
-    createChairWheel(chair, 0, 0, 0);
-
+    createChairSeat(chair, 0, 4, 0);
+    createChairBackSeat(chair, 0, 10, 4);
+    createChairLeg(chair, 4, 0, 4);
+    createChairLeg(chair, 4, 0, -4);
+    createChairLeg(chair, -4, 0, 4);
+    createChairLeg(chair, -4, 0, -4);
+    createChairWheel(chair, 4, -3.5, 4);
+    createChairWheel(chair, 4, -3.5, -4);
+    createChairWheel(chair, -4, -3.5, 4);
+    createChairWheel(chair, -4, -3.5, -4);
+    
 
     scene.add(chair);
 
@@ -131,12 +121,10 @@ function createScene() {
     
     scene = new THREE.Scene();
     
-
     scene.add(new THREE.AxisHelper(10));
     
-    /*createTable(0, 8, 0);
-    createBall(0, 0, 15);*/
-    createChair(10,0,10);
+    createTable(0, 8, 0);
+    createChair(0, 0, 20);
 }
 
 function createCamera() {
@@ -152,7 +140,7 @@ function createCamera() {
     //Creating the camera that looks from the top
     cameraArray[1] = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
     cameraArray[1].position.x = 0;
-    cameraArray[1].position.y = 50;
+    cameraArray[1].position.y = 75;
     cameraArray[1].position.z = 0;
     cameraArray[1].lookAt(scene.position);
 
@@ -238,12 +226,6 @@ function init() {
 
 function animate() {
     'use strict';
-    
-    /*if (ball.userData.jumping) {
-        ball.userData.step += 0.04;
-        ball.position.y = Math.abs(30 * (Math.sin(ball.userData.step)));
-        ball.position.z = 15 * (Math.cos(ball.userData.step));
-    }*/
 
     render();
     
