@@ -1,20 +1,22 @@
-
 var cameraArray, active_camera ,scene, renderer;
 
 var geometry, material, mesh;
 
-function addTableLeg(obj, x, y, z) {
+function createTableLeg(obj, x, y, z) {
     'use strict';
 
-    geometry = new THREE.CylinderGeometry(1,1,15);
+    material = new THREE.MeshBasicMaterial({ color: 0x9a8470, wireframe: true });
+    geometry = new THREE.CylinderGeometry(1,1,15,15);
     mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(x, y - 3, z);
+    mesh.position.set(x, y, z);
     obj.add(mesh);
 }
 
-function addTableTop(obj, x, y, z) {
+function createTableTop(obj, x, y, z) {
     'use strict';
-    geometry = new THREE.CubeGeometry(60, 2, 20);
+
+    material = new THREE.MeshBasicMaterial({ color: 0xbe9b7b, wireframe: true });
+    geometry = new THREE.CubeGeometry(40, 2, 16);
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(x, y, z);
     obj.add(mesh);
@@ -22,52 +24,52 @@ function addTableTop(obj, x, y, z) {
 
 function createTable(x, y, z) {
     'use strict';
-    
+
     var table = new THREE.Object3D();
-    
-    material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
-   
-    addTableTop(table, 0, 5, 0);
-    addTableLeg(table, -25, -1, -8);
-    addTableLeg(table, -25, -1, 8);
-    addTableLeg(table, 25, -1, 8);
-    addTableLeg(table, 25, -1, -8);
-    
+
+    createTableTop(table, 0, 16, 0);
+    createTableLeg(table, -18, 7.5, -6);
+    createTableLeg(table, 18, 7.5, -6);
+    createTableLeg(table, -18, 7.5, 6);
+    createTableLeg(table, 18, 7.5, 6);
+
     scene.add(table);
-    
+
     table.position.x = x;
     table.position.y = y;
     table.position.z = z;
-}
-
-//Function used to create the chair's legs to simplify and encapsulate code
-function createChairLeg(obj, x, y, z){
-    'use strict';
-
-    geometry = new THREE.CubeGeometry(2, 6, 2);
-    mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(x, y, z);
-    obj.add(mesh);
-    createChairWheel(mesh, x, y-3.6, z);
 }
 
 //Function used to create the chair's Wheels to simplify and encapsulate code
 function createChairWheel(obj, x, y, z){
     'use strict';
 
-    geometry = new THREE.TorusGeometry( .5, .1, 20, 60);
+    material = new THREE.MeshBasicMaterial({ color: 0xaba9a9, wireframe: true });
+    geometry = new THREE.TorusGeometry( 0.5, 0.3, 20, 60);
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, y, 0);
     mesh.rotateY(Math.PI/2);
     obj.add(mesh);
 }
 
-
-//Function used to create the back part of the chair
-function createChairBackSeat(obj, x, y, z){
+//Function used to create the chair's legs to simplify and encapsulate code
+function createChairLeg(obj, x, y, z){
     'use strict';
 
-    geometry = new THREE.CubeGeometry(10, 10, 2);    
+    material = new THREE.MeshBasicMaterial({ color: 0xbababa, wireframe: true });
+    geometry = new THREE.CubeGeometry(1, 8, 1);
+    mesh = new THREE.Mesh(geometry, material);
+    mesh.position.set(x, y, z);
+    obj.add(mesh);
+    createChairWheel(mesh, 0, -4.8, 0);
+}
+
+//Function used to create the back part of the chair
+function createChairBack(obj, x, y, z){
+    'use strict';
+
+    material = new THREE.MeshBasicMaterial({ color: 0xe5c3c6, wireframe: true });
+    geometry = new THREE.CubeGeometry(9, 12, 1.5);
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(x, y, z);
     obj.add(mesh);
@@ -77,28 +79,26 @@ function createChairBackSeat(obj, x, y, z){
 function createChairSeat(obj, x, y, z){
     'use strict';
 
-    geometry = new THREE.CubeGeometry(10, 2, 10);
+    material = new THREE.MeshBasicMaterial({ color: 0xe5c3c6, wireframe: true });
+    geometry = new THREE.CubeGeometry(9, 1.5, 10);
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(x, y, z);
-    obj.add(mesh); 
+    obj.add(mesh);
 }
 
 
-//Function used manage the creation of the chair top-down programming wise
+//Function used to manage the creation of the chair top-down programming wise
 function createChair(x, y, z){
     'use strict';
 
-
     var chair = new THREE.Object3D();
-    
-    material = new THREE.MeshBasicMaterial({ color: 0xff9100, wireframe: true });
 
-    createChairSeat(chair, 0, 4, 0);
-    createChairBackSeat(chair, 0, 10, 4);
-    createChairLeg(chair, 4, 0, 4);
-    createChairLeg(chair, 4, 0, -4);
-    createChairLeg(chair, -4, 0, 4);
-    createChairLeg(chair, -4, 0, -4);
+    createChairSeat(chair, 0, 10.35, 0);
+    createChairBack(chair, 0, 17.10, 4);
+    createChairLeg(chair, 3.5, 5.6, 4);
+    createChairLeg(chair, 3.5, 5.6, -4);
+    createChairLeg(chair, -3.5, 5.6, 4);
+    createChairLeg(chair, -3.5, 5.6, -4);
 
     scene.add(chair);
 
@@ -107,16 +107,68 @@ function createChair(x, y, z){
     chair.position.z = z;
 }
 
+//Function used to create the base of the lamp
+function createLampBase(obj, x, y, z){
+  'use strict';
+
+  var material = new THREE.MeshBasicMaterial({ color: 0xdfdfde, wireframe: true });
+  geometry = new THREE.CylinderGeometry(5,5,1,30);
+  mesh = new THREE.Mesh(geometry, material);
+  mesh.position.set(x, y, z);
+  obj.add(mesh);
+}
+
+//Function used to create the post of the lamp
+function createLampPost(obj, x, y, z){
+  'use strict';
+
+  var material = new THREE.MeshBasicMaterial({ color: 0xdfdfde, wireframe: true });
+  geometry = new THREE.CylinderGeometry(0.5,0.5,30);
+  mesh = new THREE.Mesh(geometry, material);
+  mesh.position.set(x, y, z);
+  obj.add(mesh);
+}
+
+//Function used to create the lampshade of the lamp
+function createLampLampshade(obj, x, y, z){
+  'use strict';
+
+  geometry = new THREE.CylinderGeometry(3,3,5,30,1,true);
+  var material = new THREE.MeshBasicMaterial({ color: 0xa2798f, wireframe: true });
+  mesh = new THREE.Mesh(geometry, material);
+  mesh.position.set(x, y, z);
+  obj.add(mesh);
+}
+
+function createLamp(x, y, z){
+  'use strict';
+
+  var lamp = new THREE.Object3D();
+
+  //material = new THREE.MeshBasicMaterial({ color: 0xdfdfde, wireframe: true });
+
+  createLampBase(lamp, 0, 0.5, 0);
+  createLampPost(lamp, 0, 16, 0);
+  createLampLampshade(lamp, 0, 32, 0);
+
+  scene.add(lamp);
+
+  lamp.position.x = x;
+  lamp.position.y = y;
+  lamp.position.z = z;
+}
+
 function createScene() {
     'use strict';
-    
+
     scene = new THREE.Scene();
-    
+
 
     scene.add(new THREE.AxisHelper(10));
-    
-    createTable(0, 8, 0);
-    createChair(0, 0, 20);
+
+    createTable(0, 0, 0);
+    createChair(0, 0, 17);
+    createLamp(30, 0, 0);
 }
 
 function createCamera() {
@@ -127,7 +179,7 @@ function createCamera() {
     cameraArray[0].position.x = 50;
     cameraArray[0].position.y = 50;
     cameraArray[0].position.z = 50;
-    cameraArray[0].lookAt(scene.position);    
+    cameraArray[0].lookAt(scene.position);
 
     var sides = 40;
     var near = 20;
@@ -139,7 +191,7 @@ function createCamera() {
     cameraArray[1].position.x = axisDistance;
     cameraArray[1].lookAt(scene.position);
     scene.add(cameraArray[1]);
-    
+
 
     //Creating the camera that looks from the top
     cameraArray[2] = new THREE.OrthographicCamera(-sides,sides,sides,-sides,near,far);
@@ -159,7 +211,7 @@ function onResize() {
     'use strict';
 
     renderer.setSize(window.innerWidth, window.innerHeight);
-    
+
     if (window.innerHeight > 0 && window.innerWidth > 0) {
         cameraArray[active_camera].aspect = window.innerWidth / window.innerHeight;
         cameraArray[active_camera].updateProjectionMatrix();
@@ -169,7 +221,7 @@ function onResize() {
 
 function onKeyDown(e) {
     'use strict';
-    
+
     switch (e.keyCode) {
     case 49: //1 Perpective helper camera
     case 50: //2 Side Camera
@@ -209,23 +261,22 @@ function init() {
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
-   
+
     createScene();
     cameraArray = [null,null,null,null];
     createCamera();
     active_camera=0;
-    
+
     render();
-    
+
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("resize", onResize);
 }
 
 function animate() {
     'use strict';
-    
+
     render();
-    
+
     requestAnimationFrame(animate);
 }
-
