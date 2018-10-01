@@ -2,6 +2,12 @@ var cameraArray, active_camera ,scene, renderer;
 
 var geometry, material, mesh;
 
+var chair;
+
+var delta, theta;
+
+var forward = 0, back = 0, clock;
+
 function createTableLeg(obj, x, y, z) {
     'use strict';
 
@@ -91,7 +97,7 @@ function createChairSeat(obj, x, y, z){
 function createChair(x, y, z){
     'use strict';
 
-    var chair = new THREE.Object3D();
+    chair = new THREE.Object3D();
 
     createChairSeat(chair, 0, 10.35, 0);
     createChairBack(chair, 0, 17.10, 4);
@@ -207,6 +213,21 @@ function createCamera() {
 
 }
 
+function rotateRight() {
+    chair.rotation.y -= (Math.PI / 180);
+    console.log(chair.rotation.y);
+    theta = chair.rotation.y;
+}
+
+function rotateLeft() {
+    chair.rotation.y += (Math.PI / 180);
+    console.log(chair.rotation.y);
+    theta = chair.rotation.y;
+}
+
+function moveChairUpwards(){
+}
+
 function onResize() {
     'use strict';
 
@@ -246,6 +267,18 @@ function onKeyDown(e) {
             }
         });
         break;
+    case 38: //ArrowUp
+      moveChairUpwards();
+      break;
+    case 39: //ArrowRight
+      rotateRight();
+      break;
+    case 40: //ArrowDown
+    moveChairDownwards();
+      break;
+    case 37: //ArrowLeft
+      rotateLeft();
+      break;
     }
 }
 
