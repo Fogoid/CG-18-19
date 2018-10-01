@@ -3,14 +3,10 @@ var cameraArray, active_camera ,scene, renderer;
 
 var geometry, material, mesh;
 
-var ball;
-
-
-
 function addTableLeg(obj, x, y, z) {
     'use strict';
 
-    geometry = new THREE.CubeGeometry(2, 15, 2);
+    geometry = new THREE.CylinderGeometry(1,1,15);
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(x, y - 3, z);
     obj.add(mesh);
@@ -52,7 +48,7 @@ function createChairLeg(obj, x, y, z){
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(x, y, z);
     obj.add(mesh);
-
+    createChairWheel(mesh, x, y-3.6, z);
 }
 
 //Function used to create the chair's Wheels to simplify and encapsulate code
@@ -61,9 +57,9 @@ function createChairWheel(obj, x, y, z){
 
     geometry = new THREE.TorusGeometry( .5, .1, 20, 60);
     mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(x, y, z);
+    mesh.position.set(0, y, 0);
+    mesh.rotateY(Math.PI/2);
     obj.add(mesh);
-
 }
 
 
@@ -71,7 +67,7 @@ function createChairWheel(obj, x, y, z){
 function createChairBackSeat(obj, x, y, z){
     'use strict';
 
-    geometry = new THREE.CubeGeometry(10, 10, 2);
+    geometry = new THREE.CubeGeometry(10, 10, 2);    
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(x, y, z);
     obj.add(mesh);
@@ -103,11 +99,6 @@ function createChair(x, y, z){
     createChairLeg(chair, 4, 0, -4);
     createChairLeg(chair, -4, 0, 4);
     createChairLeg(chair, -4, 0, -4);
-    createChairWheel(chair, 4, -3.5, 4);
-    createChairWheel(chair, 4, -3.5, -4);
-    createChairWheel(chair, -4, -3.5, 4);
-    createChairWheel(chair, -4, -3.5, -4);
-    
 
     scene.add(chair);
 
@@ -121,6 +112,7 @@ function createScene() {
     
     scene = new THREE.Scene();
     
+
     scene.add(new THREE.AxisHelper(10));
     
     createTable(0, 8, 0);
@@ -137,19 +129,30 @@ function createCamera() {
     cameraArray[0].position.z = 50;
     cameraArray[0].lookAt(scene.position);    
 
-    //Creating the camera that looks from the top
-    cameraArray[1] = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
-    cameraArray[1].position.x = 0;
-    cameraArray[1].position.y = 75;
-    cameraArray[1].position.z = 0;
-    cameraArray[1].lookAt(scene.position);
+    var sides = 40;
+    var near = 20;
+    var far = 60;
+    var axisDistance = 50;
 
     //Creating the camera that looks from the side
-    cameraArray[2] = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
-    cameraArray[2].position.x = 0;
-    cameraArray[2].position.y = 0;
-    cameraArray[2].position.z = 50;
+    cameraArray[1] = new THREE.OrthographicCamera(-sides,sides,sides,-sides,near,far);
+    cameraArray[1].position.x = axisDistance;
+    cameraArray[1].lookAt(scene.position);
+    scene.add(cameraArray[1]);
+    
+
+    //Creating the camera that looks from the top
+    cameraArray[2] = new THREE.OrthographicCamera(-sides,sides,sides,-sides,near,far);
+    cameraArray[2].position.y = axisDistance;
     cameraArray[2].lookAt(scene.position);
+    scene.add(cameraArray[1]);
+
+    //Creating the camera that looks from the front
+    cameraArray[3] = new THREE.OrthographicCamera(-sides,sides,sides,-sides,near,far);
+    cameraArray[3].position.z = -30;
+    cameraArray[3].lookAt(scene.position);
+    scene.add(cameraArray[1]);
+
 }
 
 function onResize() {
@@ -158,8 +161,8 @@ function onResize() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     
     if (window.innerHeight > 0 && window.innerWidth > 0) {
-        camera2.aspect = window.innerWidth / window.innerHeight;
-        camera2.updateProjectionMatrix();
+        cameraArray[active_camera].aspect = window.innerWidth / window.innerHeight;
+        cameraArray[active_camera].updateProjectionMatrix();
     }
 
 }
@@ -168,14 +171,12 @@ function onKeyDown(e) {
     'use strict';
     
     switch (e.keyCode) {
-    case 49: //1
-        active_camera=0;
-        break;
-    case 50: //2
-        active_camera=1;
-        break;
-    case 51: //3
-        active_camera=2;
+    case 49: //1 Perpective helper camera
+    case 50: //2 Side Camera
+    case 51: //3 Top camera
+    case 52: //4 Frontal camera
+        active_camera=e.keyCode - 49;
+        onResize();
         break;
     case 65: //A
     case 97: //a
@@ -184,10 +185,6 @@ function onKeyDown(e) {
                 node.material.wireframe = !node.material.wireframe;
             }
         });
-        break;
-    case 83:  //S
-    case 115: //s
-         ball.userData.jumping = !ball.userData.jumping;
         break;
     case 69:  //E
     case 101: //e
@@ -214,7 +211,7 @@ function init() {
     document.body.appendChild(renderer.domElement);
    
     createScene();
-    cameraArray = [null,null,null];
+    cameraArray = [null,null,null,null];
     createCamera();
     active_camera=0;
     
@@ -226,7 +223,7 @@ function init() {
 
 function animate() {
     'use strict';
-
+    
     render();
     
     requestAnimationFrame(animate);
