@@ -6,7 +6,9 @@ var chair;
 
 var delta = 0, theta = 0, velocity = 0, accelearation = 0.5;
 
-var forward = 0, back = 0, clock;
+var clock;
+
+var slowDownUp = 0, slowDownDown = 0;
 
 function createTableLeg(obj, x, y, z) {
     'use strict';
@@ -226,6 +228,7 @@ function rotateLeft() {
 }
 
 function moveChairUpwards(){
+    slowDownUp = 0;
     chair.position.x -= (velocity*delta*60 + accelearation*0.5*delta*delta*60*60)*Math.sin(theta);
     chair.position.z -= (velocity*delta*60 + accelearation*0.5*delta*delta*60*60)*Math.cos(theta);
     velocity += accelearation*delta*60;
@@ -233,10 +236,34 @@ function moveChairUpwards(){
 }
 
 function moveChairDownwards(){
+    slowDownDown = 0;
     chair.position.x += (velocity*delta*60 + accelearation*0.5*delta*delta*60*60)*Math.sin(theta);
     chair.position.z += (velocity*delta*60 + accelearation*0.5*delta*delta*60*60)*Math.cos(theta);
     velocity += accelearation*delta*60;
     console.log(chair.position.x);
+}
+
+function slowChairUp(){
+    chair.position.x -= (velocity*delta*60 + accelearation*0.5*delta*delta*60*60)*Math.sin(theta);
+    chair.position.z -= (velocity*delta*60 + accelearation*0.5*delta*delta*60*60)*Math.cos(theta);
+    velocity -= accelearation*delta*30;
+    if(velocity < 1){ 
+        slowDownUp = 0;
+        velocity = 0;
+    }
+    console.log(chair.position.x);
+}
+
+function slowChairDown(){
+    chair.position.x += (velocity*delta*60 + accelearation*0.5*delta*delta*60*60)*Math.sin(theta);
+    chair.position.z += (velocity*delta*60 + accelearation*0.5*delta*delta*60*60)*Math.cos(theta);
+    velocity -= accelearation*delta*30;
+    if(velocity < 1){
+        slowDownDown = 0;
+        velocity = 0;
+    } 
+    console.log(chair.position.x);
+
 }
 
 function onResize() {
@@ -279,13 +306,15 @@ function onKeyDown(e) {
         });
         break;
     case 38: //ArrowUp
+      slowDownUp = 0;
       moveChairUpwards();
       break;
     case 39: //ArrowRight
       rotateRight();
       break;
     case 40: //ArrowDown
-    moveChairDownwards();
+      slowDownDown = 0;
+      moveChairDownwards();
       break;
     case 37: //ArrowLeft
       rotateLeft();
@@ -293,8 +322,27 @@ function onKeyDown(e) {
     }
 }
 
+function onKeyUp(e){
+    'use strict';
+
+    switch (e.keyCode) {
+        case 38: //ArrowUp
+            slowDownUp = 1;
+            break;
+        case 40: //ArrowDown
+            slowDownDown = 1;
+            break;
+    }
+}
+
 function render() {
     'use strict';
+    
+    if(slowDownUp && (velocity > 0))
+        slowChairUp();
+    if(slowDownDown && (velocity > 0))
+        slowChairDown();
+
     delta = clock.getDelta();
     renderer.render(scene, cameraArray[active_camera]);
 }
@@ -319,6 +367,7 @@ function init() {
 
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("resize", onResize);
+    window.addEventListener("keyup", onKeyUp);
 }
 
 function animate() {
