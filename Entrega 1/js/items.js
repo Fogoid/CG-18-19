@@ -4,7 +4,7 @@ var geometry, material, mesh;
 
 var chair;
 
-var delta, theta;
+var delta = 0, theta = 0, velocity = 0, accelearation = 0.5;
 
 var forward = 0, back = 0, clock;
 
@@ -214,18 +214,29 @@ function createCamera() {
 }
 
 function rotateRight() {
-    chair.rotation.y -= (Math.PI / 180);
+    chair.rotation.y -= 100*delta*(Math.PI / 180);
     console.log(chair.rotation.y);
     theta = chair.rotation.y;
 }
 
 function rotateLeft() {
-    chair.rotation.y += (Math.PI / 180);
+    chair.rotation.y += 100*delta*(Math.PI / 180);
     console.log(chair.rotation.y);
     theta = chair.rotation.y;
 }
 
 function moveChairUpwards(){
+    chair.position.x -= (velocity*delta*60 + accelearation*0.5*delta*delta*60*60)*Math.sin(theta);
+    chair.position.z -= (velocity*delta*60 + accelearation*0.5*delta*delta*60*60)*Math.cos(theta);
+    velocity += accelearation*delta*60;
+    console.log(chair.position.x);
+}
+
+function moveChairDownwards(){
+    chair.position.x += (velocity*delta*60 + accelearation*0.5*delta*delta*60*60)*Math.sin(theta);
+    chair.position.z += (velocity*delta*60 + accelearation*0.5*delta*delta*60*60)*Math.cos(theta);
+    velocity += accelearation*delta*60;
+    console.log(chair.position.x);
 }
 
 function onResize() {
@@ -284,6 +295,7 @@ function onKeyDown(e) {
 
 function render() {
     'use strict';
+    delta = clock.getDelta();
     renderer.render(scene, cameraArray[active_camera]);
 }
 
@@ -294,6 +306,9 @@ function init() {
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
+
+    clock = new THREE.Clock();
+    clock.start();
 
     createScene();
     cameraArray = [null,null,null,null];
