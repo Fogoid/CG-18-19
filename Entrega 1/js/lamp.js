@@ -3,10 +3,22 @@ class LampBase {
       'use strict';
 
       var material = new THREE.MeshBasicMaterial({ color: 0xdfdfde, wireframe: true });
-      geometry = new THREE.CylinderGeometry(5,5,1,30);
+      geometry = new THREE.ConeGeometry(4,2,20);
       mesh = new THREE.Mesh(geometry, material);
       mesh.position.set(x, y, z);
       obj.add(mesh);
+  }
+}
+
+class LampLightbulb {
+  constructor(x, y, z, obj) {
+    'use strict';
+
+    geometry = new THREE.SphereGeometry(1,5,5);
+    var material = new THREE.MeshBasicMaterial({ color: 0xffefc0, wireframe: true });
+    mesh = new THREE.Mesh(geometry, material);
+    mesh.position.set(x, y, z);
+    obj.add(mesh);
   }
 }
 
@@ -19,6 +31,7 @@ class LampPost {
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(x, y, z);
     obj.add(mesh);
+    var lightbulb =  new LampLightbulb(0, 15, 0, mesh);
   }
 }
 
@@ -34,6 +47,7 @@ class LampLampshade {
   }
 }
 
+
 class Lamp extends Item {
   constructor(x, y, z) {
       'use strict';
@@ -42,6 +56,6 @@ class Lamp extends Item {
       var lampBase = new LampBase(0, 0.5, 0, this);
       var lampPost = new LampPost(0, 16, 0, this);
       var lampLampshade = new LampLampshade(0, 32, 0, this);
-
   }
 }
+
