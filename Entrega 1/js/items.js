@@ -2,8 +2,8 @@ var cameraArray, active_camera ,scene, renderer;
 var geometry, material, mesh;
 var table, chair, lamp;
 var clock;
-var slowDownUp = 0, slowDownDown = 0;
 var keys = [];
+var wireframe_flag = true;
 
 class Item extends THREE.Object3D {
   constructor(x, y, z) {
@@ -37,8 +37,11 @@ function onResize() {
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     if (window.innerHeight > 0 && window.innerWidth > 0) {
-        cameraArray[active_camera].aspect = window.innerWidth / window.innerHeight;
-        cameraArray[active_camera].updateProjectionMatrix();
+        updateCamera(cameraArray[0])
+        updateCamera(cameraArray[1])
+        updateCamera(cameraArray[2])
+        cameraArray[3].aspect = window.innerWidth / window.innerHeight;
+        cameraArray[3].updateProjectionMatrix();
     }
 
 }
@@ -58,9 +61,11 @@ function onKeyDown(e) {
         break;
     case 65: //A
     case 97: //a
+        wireframe_flag = !wireframe_flag
         scene.traverse(function (node) {
             if (node instanceof THREE.Mesh) {
-                node.material.wireframe = !node.material.wireframe;
+                if(node.material.wireframe!=wireframe_flag)
+                    node.material.wireframe = wireframe_flag;
             }
         });
         break;
@@ -76,8 +81,9 @@ function onKeyUp(e) {
 function render() {
   'use strict';
 
-  updateChair();
-  keysPressed();
+  delta = clock.getDelta();
+  chair.update(delta);
+  keysPressed(delta);
   renderer.render(scene, cameraArray[active_camera]);
 }
 
@@ -112,59 +118,19 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-//!!!!!!!!!!!! CHAIR MOVEMENT !!!!!!!!!!!!!!!!!!!!
-function rotateRight(obj) {
-    obj.rotation.y -= 100*delta*(Math.PI / 180);
-    console.log(obj.rotation.y);
-    theta = obj.rotation.y;
-}
 
-function rotateLeft(obj) {
-    obj.rotation.y += 100*delta*(Math.PI / 180);
-    console.log(obj.rotation.y);
-    theta = obj.rotation.y;
-}
-
-function moveChairForward(){
-    if(acceleration < 0.5)
-        acceleration += 0.1;
-}
-
-function moveChairBackward(){
-    if(acceleration > -0.5)
-        acceleration -= 0.1;
-}
-
-function capVelocity(){
-    if(velocity > 1)
-        velocity = 1;
-    else if (velocity < -1)
-        velocity = -1;
-
-}
-
-function updateChair(){
-    delta = clock.getDelta();
-
-    acceleration = acceleration * friction;
-    velocity += acceleration*delta
-    capVelocity();
-    velocity = velocity * friction;
-    chair.position.x -= (velocity*delta*60 + acceleration*0.5*delta*delta*60*60)*Math.sin(theta);
-    chair.position.z -= (velocity*delta*60 + acceleration*0.5*delta*delta*60*60)*Math.cos(theta);
-}
-
-function keysPressed(){
+function keysPressed(delta){
+    if(!keys[38] && !keys[40] || keys[38] && keys[40] )
+        chair.brake()
     if(keys[37] && !keys[39])
-       rotateLeft(chair);
+       chair.rotateLeft(delta);
 
     if(keys[38] && !keys[40])
-        moveChairForward(chair);
+        chair.moveForward();
 
     if(keys[39] && !keys[37])
-        rotateRight(chair);
+        chair.rotateRight(delta);
 
     if(keys[40] && !keys[38])
-        moveChairBackward(chair);
+        chair.moveBackward();
 }
-//!!!!!!!!!!!!!!! END OF CHAIR MOVEMENT !!!!!!!!!!!!!!!obj

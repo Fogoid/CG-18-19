@@ -2,7 +2,7 @@ class LampBase {
   constructor(x, y, z, obj) {
       'use strict';
 
-      var material = new THREE.MeshBasicMaterial({ color: 0xdfdfde, wireframe: true });
+      var material = new THREE.MeshBasicMaterial({ color: 0xdfdfde, wireframe: wireframe_flag });
       geometry = new THREE.ConeGeometry(4,2,20);
       mesh = new THREE.Mesh(geometry, material);
       mesh.position.set(x, y, z);
@@ -15,7 +15,7 @@ class LampLightbulb {
     'use strict';
 
     geometry = new THREE.SphereGeometry(1,5,5);
-    var material = new THREE.MeshBasicMaterial({ color: 0xffefc0, wireframe: true });
+    var material = new THREE.MeshBasicMaterial({ color: 0xffefc0, wireframe: wireframe_flag });
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(x, y, z);
     obj.add(mesh);
@@ -26,7 +26,7 @@ class LampPost {
   constructor(x, y, z, obj) {
     'use strict';
 
-    var material = new THREE.MeshBasicMaterial({ color: 0xdfdfde, wireframe: true });
+    var material = new THREE.MeshBasicMaterial({ color: 0xdfdfde, wireframe: wireframe_flag });
     geometry = new THREE.CylinderGeometry(0.5,0.5,30);
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(x, y, z);
@@ -40,7 +40,7 @@ class LampLampshade {
     'use strict';
 
     geometry = new THREE.CylinderGeometry(3,3,5,30,1,true);
-    var material = new THREE.MeshBasicMaterial({ color: 0xa2798f, wireframe: true });
+    var material = new THREE.MeshBasicMaterial({ color: 0xa2798f, wireframe: wireframe_flag });
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(x, y, z);
     obj.add(mesh);
