@@ -3,10 +3,9 @@ var delta = 0,theta = 0;
 var material;
 
 class ChairWheel {
-  constructor(x, y, z, obj) {
+  constructor(x, y, z, obj, material) {
     'use strict';
 
-   // material.color = 0xaba9a9;
     geometry = new THREE.TorusGeometry( 0.5, 0.3, 20, 60);
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, y, 0);
@@ -16,24 +15,22 @@ class ChairWheel {
 }
 
 class ChairLeg {
-  constructor(x, y, z, obj) {
+  constructor(x, y, z, obj, material, wheelMaterial) {
     'use strict';
 
-    //material.color = 0xbababa;
     geometry = new THREE.CubeGeometry(1, 8, 1);
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(x, y, z);
     obj.add(mesh);
-    var wheel = new ChairWheel(0, -4.8, 0, mesh);
+    var wheel = new ChairWheel(0, -4.8, 0, mesh, wheelMaterial);
   }
 }
 
 class ChairBack {
-  constructor(x, y, z, obj) {
+  constructor(x, y, z, obj, material) {
     'use strict';
 
 
-    //material.color = 0xe5c3c6;
     geometry = new THREE.CubeGeometry(9, 12, 1.5);
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(x, y, z);
@@ -41,7 +38,7 @@ class ChairBack {
   }
 }
 class ChairSeat {
-  constructor(x, y, z, obj) {
+  constructor(x, y, z, obj, material) {
     'use strict';
    
     geometry = new THREE.CubeGeometry(9, 1.5, 10);
@@ -67,20 +64,19 @@ class Chair extends Item {
         this.positionY = y;
         this.positionZ = z;
 
-        material = new THREE.MeshBasicMaterial({ color: 0xe5c3c6, wireframe: wireframe_flag });
+        var seatMaterial = new THREE.MeshBasicMaterial({ color: 0xe5c3c6, wireframe: wireframe_flag });
+        var legMaterial = new THREE.MeshBasicMaterial({ color: 0xbababa, wireframe: wireframe_flag });
+        var wheelMaterial = new THREE.MeshBasicMaterial({ color: 0xaba9a9, wireframe: wireframe_flag });
 
-
-        var chairSeat = new ChairSeat(0, 10.35, 0, this);
-        var chairBack = new ChairBack(0, 17.10, 4, this);
-        var chairLeg1 = new ChairLeg(3.5, 5.6, 4, this);
-        var chairLeg2 = new ChairLeg(3.5, 5.6, -4, this);
-        var chairLeg3 = new ChairLeg(-3.5, 5.6, 4, this);
-        var chairLeg4 = new ChairLeg(-3.5, 5.6, -4, this);
+        var chairSeat = new ChairSeat(0, 10.35, 0, this, seatMaterial);
+        var chairBack = new ChairBack(0, 17.10, 4, this, seatMaterial);
+        var chairLeg1 = new ChairLeg(3.5, 5.6, 4, this, legMaterial, wheelMaterial);
+        var chairLeg2 = new ChairLeg(3.5, 5.6, -4, this, legMaterial, wheelMaterial);
+        var chairLeg3 = new ChairLeg(-3.5, 5.6, 4, this, legMaterial, wheelMaterial);
+        var chairLeg4 = new ChairLeg(-3.5, 5.6, -4, this, legMaterial, wheelMaterial);
     }
 
     update(delta){
-        
-
         this.switchVelocity(delta);
         this.capVelocity();
         this.positionX -= (this.velocity*delta*60 + this.acceleration*0.5*delta*delta*60*60)*Math.sin(this.rotationY);
