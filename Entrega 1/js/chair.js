@@ -1,4 +1,3 @@
-
 var delta = 0,theta = 0;
 var material;
 
@@ -97,7 +96,6 @@ class Chair extends Item {
 
 
         chairLeg1.createWheel(0, -4.8, 0, chairLeg1, wheelMaterial);
-        this.wheel = chairLeg1.returnWheel();
         chairLeg2.createWheel(0, -4.8, 0, chairLeg2, wheelMaterial);
         chairLeg3.createWheel(0, -4.8, 0, chairLeg3, wheelMaterial);
         chairLeg4.createWheel(0, -4.8, 0, chairLeg4, wheelMaterial);

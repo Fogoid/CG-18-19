@@ -1,4 +1,4 @@
-var camFactor = 20;
+var camFactor = 15;
 
 function createCamera() {
     'use strict';
@@ -8,8 +8,8 @@ function createCamera() {
     var top = window.innerHeight / camFactor;
     var bottom = -window.innerHeight / camFactor;
     var near = 20;
-    var far = 100;
-    var axisDistance = 50;
+    var far = 120;
+    var axisDistance = 60;
 
 
 
