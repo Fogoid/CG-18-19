@@ -40,6 +40,11 @@ class ChairLeg extends Item {
   returnWheel(){
       return this.wheel;
   }
+
+  removeWheel(){
+    this.wheel = null;
+  }
+
 }
 
 class ChairBack extends Item {
@@ -157,7 +162,7 @@ class Chair extends Item {
         'use strict';
 
         this.rotation.y += 100*delta*(Math.PI / 180);
-        this.rotationY =this.rotation.y;
+        this.rotationY = this.rotation.y;
     }
 
     moveForward(){

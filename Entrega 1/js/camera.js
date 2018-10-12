@@ -1,4 +1,5 @@
-var camFactor = 15;
+var camFactor = 20;
+var original_window = window.innerWidth/window.innerHeight
 
 function createCamera() {
     'use strict';
@@ -7,8 +8,8 @@ function createCamera() {
     var right = window.innerWidth / camFactor;
     var top = window.innerHeight / camFactor;
     var bottom = -window.innerHeight / camFactor;
-    var near = 20;
-    var far = 120;
+    var near = 1;
+    var far = 500;
     var axisDistance = 60;
 
 
@@ -44,9 +45,13 @@ function createCamera() {
 }
 
 function updateCamera(camera){
-    camera.left = -window.innerWidth / camFactor;
-    camera.right = window.innerWidth / camFactor;
-    camera.top = window.innerHeight / camFactor;
-    camera.bottom = -window.innerHeight / camFactor;
+
+    var ratio = window.innerWidth / window.innerHeight
+    var difference = original_window / ratio
+
+    camera.left   = (difference)*window.innerWidth/ -camFactor
+    camera.right  = (difference)*window.innerWidth /  camFactor  ;
+    camera.top    = (difference)*window.innerHeight/ camFactor ;
+    camera.bottom = (difference)*window.innerHeight / -camFactor ;
     camera.updateProjectionMatrix();
 }
