@@ -13,7 +13,7 @@ function createCameras(size) {
 
 
 
-    //Creating the camera that looks from the side
+    //Creating the camera that looks from the top
     cameraArray[0] = new THREE.OrthographicCamera(left,right,top,bottom,near,far);
     cameraArray[0].position.y = axisDistance;
     cameraArray[0].lookAt(scene.position);
@@ -27,7 +27,7 @@ function createCameras(size) {
     cameraArray[1].position.z = 0;
     cameraArray[1].lookAt(scene.position);
 
-    //Creating the camera that looks from the front
+    // Creating the camera that will follow the ball
     cameraArray[2] = new THREE.OrthographicCamera(left,right,top,bottom,near,far);
     cameraArray[2].position.z = -axisDistance;
     cameraArray[2].lookAt(scene.position);

@@ -29,7 +29,8 @@ class GameBoard extends Item{
   	for(var i=0; i<this.ballsNumber; i++){
   		var x = Math.random() * ((2*this.limit-this.radius) - this.radius) + this.radius - this.limit;
   		var z = Math.random() * ((this.limit-this.radius) - this.radius) + this.radius - this.limit/2;
-  		this.balls[i] = new Ball(x,this.radius,z,this.radius,this);
+  		var velocity = Math.random() * (2.5 - 0.5) + 0.5;
+  		this.balls[i] = new Ball(x,z,this.radius,velocity,this);
   	}
   }
 
