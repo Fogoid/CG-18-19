@@ -1,8 +1,8 @@
 var cameraArray, active_camera ,scene, renderer;
 var game_board;
-var clock;
+var clock, delta;
 var keys = [];
-var wireframe_flag = true;
+var size = 50;
 
 class Item extends THREE.Object3D {
   constructor(x, y, z) {
@@ -19,7 +19,8 @@ function createScene() {
     scene = new THREE.Scene();
     scene.add(new THREE.AxisHelper(10));
 
-    game_board = new GameBoard(0,0,0,50);
+    game_board = new GameBoard(0,0,0,size);
+    scene.add(game_board);
 }
 
 function onResize() {
@@ -29,10 +30,9 @@ function onResize() {
 
     if (window.innerHeight > 0 && window.innerWidth > 0) {
         updateCamera(cameraArray[0])
-        updateCamera(cameraArray[1])
         updateCamera(cameraArray[2])
-        cameraArray[3].aspect = window.innerWidth / window.innerHeight;
-        cameraArray[3].updateProjectionMatrix();
+        cameraArray[1].aspect = window.innerWidth / window.innerHeight;
+        cameraArray[1].updateProjectionMatrix();
     }
 
 }
@@ -43,13 +43,13 @@ function onKeyDown(e) {
     keys[e.keyCode] = true;
 
     switch (e.keyCode) {
-    case 49: //1 Side Camera
-    case 50: //2 Top camera
-    case 51: //3 Frontal camera
-    case 52: //4 Perpective helper camera 
+    case 49: //1 Top Camera
+    case 50: //2 Perpective camera
+    case 51: //3 Ball camera
         active_camera=e.keyCode - 49;
         onResize();
         break;
+    }
 }
 
 function onKeyUp(e) {
@@ -80,7 +80,7 @@ function init() {
     createScene();
     cameraArray = [null,null,null,null];
     active_camera=0;
-    createCamera();
+    createCameras(size);
 
 
     render();

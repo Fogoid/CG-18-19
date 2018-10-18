@@ -1,6 +1,6 @@
 var camFactor = 20;
 
-function createCamera() {
+function createCameras(size) {
     'use strict';
 
     var left = -window.innerWidth / camFactor;
@@ -15,29 +15,25 @@ function createCamera() {
 
     //Creating the camera that looks from the side
     cameraArray[0] = new THREE.OrthographicCamera(left,right,top,bottom,near,far);
-    cameraArray[0].position.x = axisDistance;
+    cameraArray[0].position.y = axisDistance;
     cameraArray[0].lookAt(scene.position);
-    scene.add(cameraArray[1]);
+    scene.add(cameraArray[0]);
 
 
-    //Creating the camera that looks from the top
-    cameraArray[1] = new THREE.OrthographicCamera(left,right,top,bottom,near,far);
-    cameraArray[1].position.y = axisDistance;
+    //Creating the camera that looks from a cube perpective
+    cameraArray[1] = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+    cameraArray[1].position.x = 1.65*size;
+    cameraArray[1].position.y = size;
+    cameraArray[1].position.z = 0;
     cameraArray[1].lookAt(scene.position);
-    scene.add(cameraArray[2]);
 
     //Creating the camera that looks from the front
     cameraArray[2] = new THREE.OrthographicCamera(left,right,top,bottom,near,far);
     cameraArray[2].position.z = -axisDistance;
     cameraArray[2].lookAt(scene.position);
-    scene.add(cameraArray[3]);
+    scene.add(cameraArray[2]);
 
-    //Creating the camera that looks from a cube perpective
-    cameraArray[3] = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
-    cameraArray[3].position.x = 50;
-    cameraArray[3].position.y = 50;
-    cameraArray[3].position.z = 50;
-    cameraArray[3].lookAt(scene.position);
+
 
 }
 
