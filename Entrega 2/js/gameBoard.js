@@ -13,7 +13,6 @@ class GameBoard extends Item{
 
       var width = size;
       var height = Math.sqrt(5)*size/10;
-      console.log(height);
       this.radius = height/2;
 
       this.walls[0] = new Wall(x,y,-(z+size/2),2*width,height,0,this);
@@ -35,7 +34,7 @@ class GameBoard extends Item{
 		    var z = Math.random() * ((this.limit-this.radius) - this.radius) + this.radius - this.limit/2;
 
         for(var index = 0; index < ballsCreated; index++){
-          collided = this.balls[index].collided(Math.pow(2.5*this.radius,2), Math.pow(this.balls[index].position.x - x, 2) + Math.pow(this.balls[index].position.z - z, 2));
+          collided = Math.pow(2.5*this.radius,2)  > Math.pow(this.balls[index].position.x - x, 2) + Math.pow(this.balls[index].position.z - z, 2);
           if(collided){
             break;
           }
@@ -45,9 +44,30 @@ class GameBoard extends Item{
           break;
       }
 
-      var velocity = Math.random() * (2.5 - 0.5) + 0.5;
+      var velocityX = Math.random() * (2.5 - 0.5) + 0.5 - 1.5;
+      var velocityZ = Math.random() * (2.5 - 0.5) + 0.5 - 1.5;
+      var velocity = new THREE.Vector3(velocityX,0,velocityZ);
   		this.balls[i] = new Ball(x,z,this.radius, velocity,this);
       ballsCreated++;
     }
   }
+
+  updateCycle(){
+    for(var i=0; i<this.ballsNumber; i++){
+      //Walls collision
+
+       for(var j=0; j<this.ballsNumber; j++){
+          if(i!=j){
+            var distance = this.balls[i].position.distanceToSquared(this.balls[j].position);
+            var squaredRadius = this.radius*this.radius;
+            if(distance < squaredRadius){
+              console.log("oi")
+            }
+          }
+       }
+
+      this.balls[i].updatePosition();
+    }
+  }
+
 }
