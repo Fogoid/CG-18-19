@@ -45,9 +45,8 @@ class GameBoard extends Item{
           break;
       }
 
-  		this.balls[i] = new Ball(x,this.radius,z,this.radius,this);
+  		this.balls[i] = new Ball(x,z,this.radius,0,this);
       ballsCreated++;
     }
   }
-
 }
