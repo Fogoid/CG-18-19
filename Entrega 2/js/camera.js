@@ -21,9 +21,9 @@ function createCameras(size) {
 
 
     //Creating the camera that looks from a cube perpective
-    cameraArray[1] = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+    cameraArray[1] = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 500);
     cameraArray[1].position.x = 1.65*size;
-    cameraArray[1].position.y = size;
+    cameraArray[1].position.y = 1.5*size;
     cameraArray[1].position.z = 0;
     cameraArray[1].lookAt(scene.position);
 

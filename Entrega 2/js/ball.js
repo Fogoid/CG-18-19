@@ -11,4 +11,12 @@ class Ball extends Item {
 		mesh.position.set(x,y,z);
 		parent.add(mesh);
 	}
+
+	collided(radius, distance){
+		if (distance < radius)
+			return true;
+		else
+			return false;			
+		
+	}
 }

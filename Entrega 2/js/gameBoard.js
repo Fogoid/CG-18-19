@@ -25,12 +25,29 @@ class GameBoard extends Item{
   }
 
   createBalls(){
-  	
-  	for(var i=0; i<this.ballsNumber; i++){
-  		var x = Math.random() * ((2*this.limit-this.radius) - this.radius) + this.radius - this.limit;
-  		var z = Math.random() * ((this.limit-this.radius) - this.radius) + this.radius - this.limit/2;
+    
+    var ballsCreated = 0;
+    
+    for(var i=0; i<this.ballsNumber; i++){
+      var collided = true;
+      while(collided){
+        var x = Math.random() * ((2*this.limit-this.radius) - this.radius) + this.radius - this.limit;
+		    var z = Math.random() * ((this.limit-this.radius) - this.radius) + this.radius - this.limit/2;
+
+        for(var index = 0; index < ballsCreated; index++){
+          collided = this.balls[index].collided(Math.pow(2*this.radius,2), Math.pow(this.balls[index].position.x - x, 2) + Math.pow(this.balls[index].position.z - z, 2));
+          if(collided){
+            break;
+          }
+        }
+        
+        if(!i)
+          break;
+      }
+
   		this.balls[i] = new Ball(x,this.radius,z,this.radius,this);
-  	}
+      ballsCreated++;
+    }
   }
 
 }
