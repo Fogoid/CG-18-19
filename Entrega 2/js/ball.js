@@ -6,9 +6,9 @@ class Ball extends Item {
 		this.velocity = velocity;
 
 		var geometry = new THREE.SphereGeometry(radius,32,32)
-		var material = new THREE.MeshBasicMaterial({ color: 0xffd1b3});
+		var material = new THREE.MeshBasicMaterial({ color: 0xffd1b3, wireframe: false});
 		var mesh = new THREE.Mesh(geometry,material);
-		this.add(new THREE.AxisHelper(50));
+		mesh.add(new THREE.AxisHelper(1.5*radius));
 
 		mesh.position.set(x,radius,z);
 		parent.add(mesh);

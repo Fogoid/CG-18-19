@@ -35,7 +35,7 @@ class GameBoard extends Item{
 		    var z = Math.random() * ((this.limit-this.radius) - this.radius) + this.radius - this.limit/2;
 
         for(var index = 0; index < ballsCreated; index++){
-          collided = this.balls[index].collided(Math.pow(2*this.radius,2), Math.pow(this.balls[index].position.x - x, 2) + Math.pow(this.balls[index].position.z - z, 2));
+          collided = this.balls[index].collided(Math.pow(2.5*this.radius,2), Math.pow(this.balls[index].position.x - x, 2) + Math.pow(this.balls[index].position.z - z, 2));
           if(collided){
             break;
           }
@@ -45,7 +45,8 @@ class GameBoard extends Item{
           break;
       }
 
-  		this.balls[i] = new Ball(x,z,this.radius,0,this);
+      var velocity = Math.random() * (2.5 - 0.5) + 0.5;
+  		this.balls[i] = new Ball(x,z,this.radius, velocity,this);
       ballsCreated++;
     }
   }
