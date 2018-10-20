@@ -52,12 +52,6 @@ function onKeyDown(e) {
     }
 }
 
-function onKeyUp(e) {
-    'use strict';
-
-    keys[e.keyCode] = false;
-}
-
 function render() {
   'use strict';
 
@@ -88,7 +82,6 @@ function init() {
 
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("resize", onResize);
-    window.addEventListener("keyup", onKeyUp);
 }
 
 function animate() {

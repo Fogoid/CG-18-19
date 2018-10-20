@@ -22,11 +22,14 @@ class Ball extends Item {
 	}
 
 	collision(object){
+		var massDifference = 2;
+		if(object.mass!=-1)
+			massDifference = (2*object.mass/this.mass+object.mass);
 		var distanceScalar = this.position.distanceToSquared(object.position);
-		var massDifference = (2*object.mass/this.mass+object.mass);
 		var distanceVector = this.position.sub(object.position);
 		distanceVector = distanceVector.multiply(distanceVector); 
-		this.velocity.sub((this.velocity.sub(object.velocity)).divideScalar(distanceScalar).multiply(distanceVector).multiplyScalar(massDifference));	
+		this.velocity.sub((this.velocity.sub(object.velocity)).divideScalar(distanceScalar).multiply(distanceVector).multiplyScalar(massDifference));
+		console.log(this.velocity.sub(object.velocity));
 	}
 
 	updatePosition(){
