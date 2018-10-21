@@ -39,9 +39,7 @@ function onResize() {
 
 function onKeyDown(e) {
     'use strict';
-
     
-
     switch (e.keyCode) {
     case 49: //1 Top Camera
     case 50: //2 Perpective camera
@@ -60,6 +58,8 @@ function render() {
 
   delta = clock.getDelta();
 
+  updateCameraPos(game_board.getBall())
+
   game_board.updateCycle(delta);
   if(keys[69] == true){
     game_board.showBallsAxes();
@@ -68,6 +68,13 @@ function render() {
 
 
   renderer.render(scene, cameraArray[active_camera]);
+}
+
+function updateCameraPos(ball){
+    cameraArray[2].position.x = ball.positionX - (ball.velocity.x)/Math.abs(ball.velocity.x)*game_board.radius
+    cameraArray[2].position.z = ball.positionZ - (ball.velocity.z)/Math.abs(ball.velocity.z)*game_board.radius
+    cameraArray[2].lookAt(ball.position)
+    console.log(ball)
 }
 
 function init() {
@@ -85,7 +92,7 @@ function init() {
     createScene();
     cameraArray = [null,null,null,null];
     active_camera=0;
-    createCameras(size);
+    createCameras(size, game_board.getBall());
 
 
     render();

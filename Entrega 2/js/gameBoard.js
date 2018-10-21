@@ -51,7 +51,7 @@ class GameBoard extends Item{
       var velocityX = Math.random() * (20 + 15) - 17.5;
       var velocityZ = Math.random() * (20 + 15) - 17.5;
       var velocity = new THREE.Vector3(velocityX,0,velocityZ);
-  		this.balls[i] = new Ball(x,z,this.radius, velocity,i,this);
+  		this.balls[i] = new Ball(x,z,this.radius, velocity, i, this);
       ballsCreated++;
     }
   }
@@ -102,6 +102,10 @@ class GameBoard extends Item{
   showBallsAxes(){
     for(var i=0; i<this.ballsNumber; i++)
       this.balls[i].showAxes();
+  }
+
+  getBall(){
+    return this.balls[0]
   }
 
 }
