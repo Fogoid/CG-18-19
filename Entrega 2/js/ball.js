@@ -3,15 +3,18 @@ class Ball extends Item {
 	constructor(x,z,radius,velocity,ID,parent){
 
 		super(x,radius,z);
+
 		this.velocity = velocity;
 		this.mass = 1;
-
 		this.positionX = x;
 		this.positionY = radius;
 		this.positionZ = z;
 		this.ID = "ball_"+ID;
 		this.lastCollision = null;
+
 		this.axes = new THREE.AxisHelper(1.5*radius); 
+		this.vectorX = new THREE.Vector3(1,0,0);
+		this.vectorZ = new THREE.Vector3(0,0,1);
 
 		var geometry = new THREE.SphereGeometry(radius,32,32)
 		var material = new THREE.MeshBasicMaterial({ color: 0xffd1b3, wireframe: false});
@@ -47,22 +50,29 @@ class Ball extends Item {
 			formula.multiply(angle);
 
 			this.velocity.sub(formula);
-			console.log(this.velocity);
 		}
 	}
 
 	updatePosition(delta){
+		var velocityX = this.velocity.getComponent(0);
+		var velocityZ = this.velocity.getComponent(2);
 
-		var velocityIncrementX = this.velocity.getComponent(0);
-		var velocityIncrementZ = this.velocity.getComponent(2);
+		var angleX = velocityZ*delta*Math.PI/20;
+		var angleZ = velocityX*delta*Math.PI/20;
 
-		this.positionX += velocityIncrementX*delta;
-		this.positionZ += velocityIncrementZ*delta;
+		this.positionX += velocityX*delta;
+		this.positionZ += velocityZ*delta;
 		this.position.set(this.positionX,this.positionY,this.positionZ);
 		this.mesh.position.set(this.positionX,this.positionY,this.positionZ);
+		this.mesh.rotateOnAxis(this.vectorX, -angleX);
+		this.mesh.rotateOnAxis(this.vectorZ, -angleZ);
 	}
 
 	showAxes(){
 		this.axes.visible = !this.axes.visible; 
+	}
+
+	increaseVelocity(){
+		this.velocity.multiplyScalar(1.2);
 	}
 }

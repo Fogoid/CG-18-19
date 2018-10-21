@@ -108,4 +108,9 @@ class GameBoard extends Item{
     return this.balls[0]
   }
 
+  increaseBallVelocity(){
+    for(var i=0; i<this.ballsNumber; i++)
+      this.balls[i].increaseVelocity();
+  }
+
 }

@@ -66,15 +66,17 @@ function render() {
     keys[69] = false;
   }
 
-
   renderer.render(scene, cameraArray[active_camera]);
 }
 
 function updateCameraPos(ball){
-    cameraArray[2].position.x = ball.positionX - (ball.velocity.x)/Math.abs(ball.velocity.x)*game_board.radius
-    cameraArray[2].position.z = ball.positionZ - (ball.velocity.z)/Math.abs(ball.velocity.z)*game_board.radius
-    cameraArray[2].lookAt(ball.position)
-    console.log(ball)
+    cameraArray[2].position.x = ball.positionX - (ball.velocity.x)/Math.abs(ball.velocity.x)*game_board.radius;
+    cameraArray[2].position.z = ball.positionZ - (ball.velocity.z)/Math.abs(ball.velocity.z)*game_board.radius;
+    cameraArray[2].lookAt(ball.position);
+}
+
+function Timer() {
+  game_board.increaseBallVelocity();
 }
 
 function init() {
@@ -87,7 +89,7 @@ function init() {
     document.body.appendChild(renderer.domElement);
 
     clock = new THREE.Clock();
-    clock.start();
+    setInterval(Timer, 12000);
 
     createScene();
     cameraArray = [null,null,null,null];
