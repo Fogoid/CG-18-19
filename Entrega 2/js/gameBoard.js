@@ -9,16 +9,20 @@ class GameBoard extends Item{
       this.floor = new Floor(x,y,z,size,this);
       this.walls = [];
       this.balls = [];
-      this.ballsNumber = 10;
+      this.ballsNumber = 1;
+
 
       var width = size;
       var height = Math.sqrt(5)*size/10;
       this.radius = height/2;
+      this.limitX = x+size-height/2;
+      this.limitZ = z+size/2-height/2;
 
-      this.walls[0] = new Wall(x,y,-(z+size/2),2*width,height,0,2,this);
-      this.walls[1] = new Wall(x,y,z+size/2,2*width,height,0,2,this);
-      this.walls[2] = new Wall(-(x+size),y,z,width,height,Math.PI/2,0,this);
-      this.walls[3] = new Wall(x+size,y,z,width,height,Math.PI/2,0,this);
+
+      this.walls[0] = new Wall(x,y,-(z+size/2),2*width,height,0,0,this);
+      this.walls[1] = new Wall(x,y,z+size/2,2*width,height,0,1,this);
+      this.walls[2] = new Wall(-(x+size),y,z,width,height,Math.PI/2,2,this);
+      this.walls[3] = new Wall(x+size,y,z,width,height,Math.PI/2,3,this);
 
       this.createBalls();
   }
@@ -44,34 +48,54 @@ class GameBoard extends Item{
           break;
       }
 
-      var velocityX = Math.random() * (2.5 - 0.5) + 0.5 - 1.5;
-      var velocityZ = Math.random() * (2.5 - 0.5) + 0.5 - 1.5;
+      var velocityX = Math.random() * (20 + 15) - 17.5;
+      var velocityZ = Math.random() * (20 + 15) - 17.5;
       var velocity = new THREE.Vector3(velocityX,0,velocityZ);
-  		this.balls[i] = new Ball(x,z,this.radius, velocity,this);
+  		this.balls[i] = new Ball(x,z,this.radius, velocity,i,this);
       ballsCreated++;
     }
   }
 
-  updateCycle(){
+  updateCycle(delta){
+
+    for(var i=0; i<this.ballsNumber; i++)
+      this.balls[i].updatePosition(delta);
+
+    this.collisionCycle();
+    
+  }
+
+  wallsCollisions(object){
+    var positionX = object.position.getComponent(0);
+    var positionZ = object.position.getComponent(2);
+    var lastCollision = object.lastCollision;
+
+    if( positionZ <= -this.limitZ && lastCollision!=this.walls[0].ID)
+      object.collision(this.walls[0]);
+    else if( positionZ >= this.limitZ && lastCollision!=this.walls[1].ID)
+      object.collision(this.walls[1]);
+    else if( positionX <= -this.limitX && lastCollision!=this.walls[2].ID)
+      object.collision(this.walls[2]);
+    else if( positionX >= this.limitX && lastCollision!=this.walls[3].ID)
+      object.collision(this.walls[3]);
+
+  }
+
+  collisionCycle(){
+    var squaredRadius = 4*this.radius*this.radius;
+
     for(var i=0; i<this.ballsNumber; i++){
 
-      var ballPosition = this.balls[i].position; 
-
-      for(var j=0; j<4; j++){
-        if(this.walls[j].checkCollision(ballPosition))
-          this.balls[i].collision(this.walls[j]);
-      }  
+      this.wallsCollisions(this.balls[i]);
+      var ballPosition = this.balls[i].position;
 
       for(var j=0; j<this.ballsNumber; j++){
         if(i!=j){
           var distance = ballPosition.distanceToSquared(this.balls[j].position);
-          var squaredRadius = 4*this.radius*this.radius;
           if(distance < squaredRadius){
           }
         }
       }
-
-      this.balls[i].updatePosition();
     }
   }
 

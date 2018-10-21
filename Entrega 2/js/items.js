@@ -56,7 +56,7 @@ function render() {
   'use strict';
 
   delta = clock.getDelta();
-  game_board.updateCycle();
+  game_board.updateCycle(delta);
   renderer.render(scene, cameraArray[active_camera]);
 }
 
