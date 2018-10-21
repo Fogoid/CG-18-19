@@ -40,7 +40,7 @@ function onResize() {
 function onKeyDown(e) {
     'use strict';
 
-    keys[e.keyCode] = true;
+    
 
     switch (e.keyCode) {
     case 49: //1 Top Camera
@@ -49,6 +49,9 @@ function onKeyDown(e) {
         active_camera=e.keyCode - 49;
         onResize();
         break;
+    case 69: //E -> Press to remove Axes
+        keys[e.keyCode] = true;
+        break;
     }
 }
 
@@ -56,7 +59,14 @@ function render() {
   'use strict';
 
   delta = clock.getDelta();
+
   game_board.updateCycle(delta);
+  if(keys[69] == true){
+    game_board.showBallsAxes();
+    keys[69] = false;
+  }
+
+
   renderer.render(scene, cameraArray[active_camera]);
 }
 

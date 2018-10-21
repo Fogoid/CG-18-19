@@ -9,7 +9,7 @@ class GameBoard extends Item{
       this.floor = new Floor(x,y,z,size,this);
       this.walls = [];
       this.balls = [];
-      this.ballsNumber = 1;
+      this.ballsNumber = 10;
 
 
       var width = size;
@@ -71,13 +71,13 @@ class GameBoard extends Item{
     var lastCollision = object.lastCollision;
 
     if( positionZ <= -this.limitZ && lastCollision!=this.walls[0].ID)
-      object.collision(this.walls[0]);
+      object.collision(this.walls[0],2);
     else if( positionZ >= this.limitZ && lastCollision!=this.walls[1].ID)
-      object.collision(this.walls[1]);
+      object.collision(this.walls[1],2);
     else if( positionX <= -this.limitX && lastCollision!=this.walls[2].ID)
-      object.collision(this.walls[2]);
+      object.collision(this.walls[2],0);
     else if( positionX >= this.limitX && lastCollision!=this.walls[3].ID)
-      object.collision(this.walls[3]);
+      object.collision(this.walls[3],0);
 
   }
 
@@ -97,6 +97,11 @@ class GameBoard extends Item{
         }
       }
     }
+  }
+
+  showBallsAxes(){
+    for(var i=0; i<this.ballsNumber; i++)
+      this.balls[i].showAxes();
   }
 
 }
