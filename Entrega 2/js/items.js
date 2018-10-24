@@ -24,18 +24,49 @@ function createScene() {
 }
 
 function onResize() {
-    'use strict';
+  'use strict'
 
-    renderer.setSize(window.innerWidth, window.innerHeight);
+  screen = resize_Aux();
+  var index = 0;
+  if (window.innerWidth > 0 && window.innerHeight > 0) {
 
-    if (window.innerHeight > 0 && window.innerWidth > 0) {
-        updateCamera(cameraArray[0])
-        updateCamera(cameraArray[2])
-        cameraArray[1].aspect = window.innerWidth / window.innerHeight;
-        cameraArray[1].updateProjectionMatrix();
+          
+    cameraArray[1].aspect = screen[0]/screen[1];
+
+    cameraArray[2].aspect = screen[0]/screen[1];
+
+    cameraArray[0].left = screen[0] * -.6;
+    cameraArray[0].right = screen[0] * .6;
+    cameraArray[0].top = screen[1] * .6;
+    cameraArray[0].bottom = screen[1] * -.6;
+          
+    cameraArray[0].updateProjectionMatrix();
+    cameraArray[1].updateProjectionMatrix();
+    cameraArray[2].updateProjectionMatrix();
+  }
+  
+
+  renderer.setSize(window.innerWidth, window.innerHeight)
+}
+
+function resize_Aux() {
+    'use strict'
+
+    var aspect = 16/9
+    var scale = window.innerWidth / window.innerHeight
+
+    if(scale > aspect) { 
+        var width = scale * 50;
+        var height = 50;
+    }
+    else { 
+        var width = aspect * 50;
+        var height = width / scale;
     }
 
+    return [width, height]
 }
+
 
 function onKeyDown(e) {
     'use strict';
