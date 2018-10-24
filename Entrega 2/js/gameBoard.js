@@ -61,7 +61,7 @@ class GameBoard extends Item{
     for(var i=0; i<this.ballsNumber; i++)
       this.balls[i].updatePosition(delta);
 
-    this.collisionCycle();
+    this.collisionCycle(delta);
     
   }
 
@@ -81,23 +81,55 @@ class GameBoard extends Item{
 
   }
 
-  collisionCycle(){
-    var squaredRadius = 4*this.radius*this.radius;
+  ballsCollided(a, b, delta){
+
+    a.position.set(a.position.x - a.velocity.x*delta, 0, a.position.z - a.velocity.z*delta);
+    b.position.set(b.position.x - b.velocity.x*delta, 0, b.position.z - b.velocity.z*delta);
+
+    var posa = new THREE.Vector3(a.position.x - b.position.x, 0, a.position.z - b.position.z);
+    var vela = new THREE.Vector3(a.velocity.x - b.velocity.x, 0, a.velocity.z - b.velocity.z);
+    var dot = vela.dot(posa);
+    var distance = a.position.distanceToSquared(b.position);
+    var coef = ((2*b.mass)*dot)/((a.mass + b.mass)*distance);
+    a.velocity.set(a.velocity.x - coef*posa.x, 0, a.velocity.z - coef*posa.z);
+
+    posb = new THREE.Vector3(b.position.x - a.position.x, 0, b.position.z - a.position.z);
+    velb = new THREE.Vector3(b.velocity.x - a.velocity.x, 0, b.velocity.z - a.velocity.z);
+    dot = velb.dot(posb);
+    distance = pos.lengthSq();
+    coef = ((2*a.mass)*dot)/((b.mass + a.mass)*distance);
+    b.velocity.set(b.velocity.x - coef*posb.x, 0, b.velocity.z - coef*posb.z);
+  }
+
+  ballsCollidedCool(a, b, delta){
+    if(a.lastCollision==b && b.lastCollision==a)
+      return 0;
+
+    var velocity1 = a.velocity.clone();
+    var coef = (2*b.mass)/(a.mass + b.mass)
+    a.velocity.set(coef*b.velocity.x,coef*b.velocity.y,coef*b.velocity.z);
+    var coef = (2*a.mass)/(b.mass + a.mass)
+    b.velocity.set(coef*velocity1.x,coef*velocity1.y,coef*velocity1.z);
+    a.lastCollision = b;
+    b.lastCollision = a;
+  }
+
+  collisionCycle(delta){
+    var squaredRadius = Math.pow(2*this.radius, 2);
 
     for(var i=0; i<this.ballsNumber; i++){
 
       this.wallsCollisions(this.balls[i]);
       var ballPosition = this.balls[i].position;
 
-      for(var j=0; j<this.ballsNumber; j++){
-        if(i!=j){
+      for(var j=i+1; j<this.ballsNumber; j++){
           var distance = ballPosition.distanceToSquared(this.balls[j].position);
-          if(distance < squaredRadius){
+          if(distance <= squaredRadius){
+            this.ballsCollidedCool(this.balls[i], this.balls[j], delta);
           }
         }
       }
     }
-  }
 
   showBallsAxes(){
     for(var i=0; i<this.ballsNumber; i++)
@@ -105,7 +137,7 @@ class GameBoard extends Item{
   }
 
   getBall(){
-    return this.balls[0]
+    return this.balls[0];
   }
 
   increaseBallVelocity(){
