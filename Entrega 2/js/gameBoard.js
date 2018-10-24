@@ -9,7 +9,7 @@ class GameBoard extends Item{
       this.floor = new Floor(x,y,z,size,this);
       this.walls = [];
       this.balls = [];
-      this.ballsNumber = 10;
+      this.ballsNumber = 1;
 
 
       var width = size;
@@ -51,7 +51,7 @@ class GameBoard extends Item{
       var velocityX = Math.random() * (20 + 15) - 17.5;
       var velocityZ = Math.random() * (20 + 15) - 17.5;
       var velocity = new THREE.Vector3(velocityX,0,velocityZ);
-  		this.balls[i] = new Ball(x,z,this.radius, velocity, i, this);
+  		this.balls[i] = new Ball(x,z,this.radius, velocity,this.limit, i, this);
       ballsCreated++;
     }
   }
@@ -82,26 +82,6 @@ class GameBoard extends Item{
   }
 
   ballsCollided(a, b, delta){
-
-    a.position.set(a.position.x - a.velocity.x*delta, 0, a.position.z - a.velocity.z*delta);
-    b.position.set(b.position.x - b.velocity.x*delta, 0, b.position.z - b.velocity.z*delta);
-
-    var posa = new THREE.Vector3(a.position.x - b.position.x, 0, a.position.z - b.position.z);
-    var vela = new THREE.Vector3(a.velocity.x - b.velocity.x, 0, a.velocity.z - b.velocity.z);
-    var dot = vela.dot(posa);
-    var distance = a.position.distanceToSquared(b.position);
-    var coef = ((2*b.mass)*dot)/((a.mass + b.mass)*distance);
-    a.velocity.set(a.velocity.x - coef*posa.x, 0, a.velocity.z - coef*posa.z);
-
-    posb = new THREE.Vector3(b.position.x - a.position.x, 0, b.position.z - a.position.z);
-    velb = new THREE.Vector3(b.velocity.x - a.velocity.x, 0, b.velocity.z - a.velocity.z);
-    dot = velb.dot(posb);
-    distance = pos.lengthSq();
-    coef = ((2*a.mass)*dot)/((b.mass + a.mass)*distance);
-    b.velocity.set(b.velocity.x - coef*posb.x, 0, b.velocity.z - coef*posb.z);
-  }
-
-  ballsCollidedCool(a, b, delta){
     if(a.lastCollision==b && b.lastCollision==a)
       return 0;
 
@@ -125,7 +105,7 @@ class GameBoard extends Item{
       for(var j=i+1; j<this.ballsNumber; j++){
           var distance = ballPosition.distanceToSquared(this.balls[j].position);
           if(distance <= squaredRadius){
-            this.ballsCollidedCool(this.balls[i], this.balls[j], delta);
+            this.ballsCollided(this.balls[i], this.balls[j], delta);
           }
         }
       }

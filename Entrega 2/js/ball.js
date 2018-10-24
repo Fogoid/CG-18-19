@@ -1,6 +1,6 @@
 class Ball extends Item {
 
-	constructor(x,z,radius,velocity,ID,parent){
+	constructor(x,z,radius,velocity,limit,ID,parent){
 
 		super(x,radius,z);
 
@@ -9,6 +9,7 @@ class Ball extends Item {
 		this.positionX = x;
 		this.positionY = radius;
 		this.positionZ = z;
+		this.limit = limit;
 		this.ID = "ball_"+ID;
 		this.lastCollision = null;
 
@@ -62,10 +63,28 @@ class Ball extends Item {
 
 		this.positionX += velocityX*delta;
 		this.positionZ += velocityZ*delta;
+		var radius = this.radius;
+
+    	if( this.positionZ <= -this.limit+radius)
+      		this.positionZ = -this.limit+radius;
+
+    	if( this.positionZ >= this.limit-radius)
+      		this.positionZ = this.limit-radius;
+
+    	if( this.positionX <= -this.limit*2+radius)
+      		this.positionX = -this.limit*2+radius;
+
+    	if( this.positionX >= this.limit*2-radius)
+    		this.positionX = this.limit*2-radius;
+      		
 		this.position.set(this.positionX,this.positionY,this.positionZ);
 		this.mesh.position.set(this.positionX,this.positionY,this.positionZ);
+		
 		this.mesh.rotateOnAxis(this.vectorX, -angleX);
+		this.vectorX.applyAxisAngle(new THREE.Vector3(1,0,0),angleX);
+
 		this.mesh.rotateOnAxis(this.vectorZ, -angleZ);
+		this.vectorZ.applyAxisAngle(new THREE.Vector3(0,0,1),angleZ);
 	}
 
 	showAxes(){
