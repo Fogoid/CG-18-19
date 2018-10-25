@@ -7,7 +7,7 @@ class Floor extends Item {
 		var material = new THREE.MeshBasicMaterial({ color: 0x666699, wireframe: false });
 		var mesh = new THREE.Mesh(geometry,material);
 
-		mesh.position.set(x,y,z);
-		parent.add(mesh);
+		this.add(mesh);
+		parent.add(this);
 	}
 }

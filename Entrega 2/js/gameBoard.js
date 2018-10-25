@@ -9,7 +9,7 @@ class GameBoard extends Item{
       this.floor = new Floor(x,y,z,size,this);
       this.walls = [];
       this.balls = [];
-      this.ballsNumber = 5;
+      this.ballsNumber = 10;
 
 
       var width = size;
@@ -19,10 +19,10 @@ class GameBoard extends Item{
       this.limitZ = z+size/2-height/2;
 
 
-      this.walls[0] = new Wall(x,y,-(z+size/2),2*width,height,0,0,this, 'z');
-      this.walls[1] = new Wall(x,y,z+size/2,2*width,height,0,1,this, 'z');
-      this.walls[2] = new Wall(-(x+size),y,z,width,height,Math.PI/2,2,this, 'x');
-      this.walls[3] = new Wall(x+size,y,z,width,height,Math.PI/2,3,this, 'x');
+      this.walls[0] = new Wall(x,y,-(z+size/2),2*width,height,0,0,this, 2);
+      this.walls[1] = new Wall(x,y,z+size/2,2*width,height,0,1,this, 2);
+      this.walls[2] = new Wall(-(x+size),y,z,width,height,Math.PI/2,2,this, 0);
+      this.walls[3] = new Wall(x+size,y,z,width,height,Math.PI/2,3,this, 0);
 
       this.createBalls();
   }
@@ -71,27 +71,14 @@ class GameBoard extends Item{
     var lastCollision = object.lastCollision;
 
     if( positionZ <= -this.limitZ && lastCollision!=this.walls[0].ID)
-      object.collision(this.walls[0],2, this.limitZ);
+      object.collision(this.walls[0]);
     else if( positionZ >= this.limitZ && lastCollision!=this.walls[1].ID)
-      object.collision(this.walls[1],2, this.limitZ);
+      object.collision(this.walls[1]);
     else if( positionX <= -this.limitX && lastCollision!=this.walls[2].ID)
-      object.collision(this.walls[2],0, this.limitX);
+      object.collision(this.walls[2]);
     else if( positionX >= this.limitX && lastCollision!=this.walls[3].ID)
-      object.collision(this.walls[3],0, this.limitX);
+      object.collision(this.walls[3]);
 
-  }
-
-  ballsCollided(a, b, delta){
-    if(a.lastCollision==b && b.lastCollision==a)
-      return 0;
-
-    var velocity1 = a.velocity.clone();
-    var coef = (2*b.mass)/(a.mass + b.mass)
-    a.velocity.set(coef*b.velocity.x,coef*b.velocity.y,coef*b.velocity.z);
-    var coef = (2*a.mass)/(b.mass + a.mass)
-    b.velocity.set(coef*velocity1.x,coef*velocity1.y,coef*velocity1.z);
-    a.lastCollision = b;
-    b.lastCollision = a;
   }
 
   collisionCycle(delta){
@@ -100,12 +87,12 @@ class GameBoard extends Item{
     for(var i=0; i<this.ballsNumber; i++){
 
       this.wallsCollisions(this.balls[i]);
-      var ballPosition = this.balls[i].position;
+      var ballPosition = this.balls[i].predictMovement(delta);
 
       for(var j=i+1; j<this.ballsNumber; j++){
-          var distance = ballPosition.distanceToSquared(this.balls[j].position);
+          var distance = ballPosition.distanceToSquared(this.balls[j].predictMovement(delta));
           if(distance <= squaredRadius){
-            this.ballsCollided(this.balls[i], this.balls[j], delta);
+            this.balls[i].collision(this.balls[j]);
           }
         }
       }

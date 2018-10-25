@@ -13,8 +13,8 @@ class Wall extends Item {
 		var material = new THREE.MeshBasicMaterial({ color: 0x6699ff, wireframe: false });
 		var mesh = new THREE.Mesh(geometry,material);
 
-		mesh.position.set(x,y+height/2,z);
-		mesh.rotateY(angle);
-		parent.add(mesh);
+		this.add(mesh);
+		this.rotateY(angle);
+		parent.add(this);
 	}
 }

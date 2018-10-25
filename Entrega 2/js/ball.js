@@ -13,96 +13,60 @@ class Ball extends Item {
 		this.limit = limit;
 		this.ID = "ball_"+ID;
 		this.lastCollision = null;
-		this.angle = 0;
 
 		this.axes = new THREE.AxisHelper(1.5*radius); 
-		this.vectorX = new THREE.Vector3(1,0,0);
+		this.vectorX = new THREE.Vector3(-1,0,0);
 		this.vectorZ = new THREE.Vector3(0,0,1);
 
 		var geometry = new THREE.SphereGeometry(radius,32,32)
 		var material = new THREE.MeshBasicMaterial({ color: 0xffd1b3, wireframe: false});
 		var mesh = new THREE.Mesh(geometry,material);
-		mesh.add(this.axes);
 
-		mesh.position.set(x,radius,z);
-		parent.add(mesh);
-		this.mesh = mesh;
+		this.add(mesh);
+		this.add(this.axes);
+
+		parent.add(this);
 	}
 
-	collision(object,wallComponent, limit){
+	collision(object){
 		this.lastCollision = object.ID;
 
 		if(object.mass==-1)
-			this.velocity.setComponent(wallComponent,-this.velocity.getComponent(wallComponent));
-		
+			this.velocity.setComponent(object.limit,-this.velocity.getComponent(object.limit));	
+
 		else{
 
-			this.checkNewBallPosition(object, limit);
+			if(this.lastCollision==object.ID && object.lastCollision==this.ID)
+      			return 0;
 
-			var massDifference = (2*object.mass/(this.mass+object.mass));
+    		var velocity1 = this.velocity.clone();
+    		var coef = (2*object.mass)/(this.mass + object.mass);
 
-			var distanceScalar = this.position.distanceToSquared(object.position);
+    		this.velocity.set(coef*object.velocity.x,coef*object.velocity.y,coef*object.velocity.z);
+    		var coef = (2*this.mass)/(object.mass + this.mass);
 
-			var distanceVector = this.position.clone();
-			distanceVector.sub(object.position);
-			distanceVector.multiply(distanceVector);
-
-			var velocityDifference = this.velocity.clone();
-			velocityDifference.sub(object.velocity);
-		
-			var formula = velocityDifference.multiplyScalar(massDifference);
-			var angle = distanceVector.divideScalar(distanceScalar);
-			formula.multiply(angle);
-
-			this.velocity.sub(formula);
+    		object.velocity.set(coef*velocity1.x,coef*velocity1.y,coef*velocity1.z);
+    		this.lastCollision = object.ID;
+   		 	object.lastCollision = this.ID;
 		}
-	}
-
-	checkNewBallPosition(object, limit){
-		if(object.limit == 'z'){
-			var d = (this.radius + limit - this.position.x)/(this.velocity.x);
-		}
-		else{
-			var d = (this.radius + limit - this.position.z)/(this.velocity.z);
-		}
-
-		var pos = this.position;
-		pos = pos.sub(this.velocity.mul(d));
-		this.position.set(pos);
 	}
 
 	updatePosition(delta){
 		var velocityX = this.velocity.getComponent(0);
 		var velocityZ = this.velocity.getComponent(2);
 
-		this.angle += Math.sqrt(Math.pow(velocityX, 2) + Math.pow(velocityZ, 2))*0.5
-
 		this.positionX += velocityX*delta;
 		this.positionZ += velocityZ*delta;
 		var radius = this.radius;
-
-    	if( this.positionZ <= -this.limit+radius)
-      		this.positionZ = -this.limit+radius;
-
-    	if( this.positionZ >= this.limit-radius)
-      		this.positionZ = this.limit-radius;
-
-    	if( this.positionX <= -this.limit*2+radius)
-      		this.positionX = -this.limit*2+radius;
-
-    	if( this.positionX >= this.limit*2-radius)
-    		this.positionX = this.limit*2-radius;
       		
 		this.position.set(this.positionX,this.positionY,this.positionZ);
-		this.mesh.position.set(this.positionX,this.positionY,this.positionZ);
 
-		this.mesh.rotateOnAxis(this.vectorX, this.angle);
-
-		//this.mesh.rotateOnAxis(this.vectorX, -angleX);
-		//this.vectorX.applyAxisAngle(new THREE.Vector3(1,0,0),angleX);
-
-		//this.mesh.rotateOnAxis(this.vectorZ, -angleZ);
-		//this.vectorZ.applyAxisAngle(new THREE.Vector3(0,0,1),angleZ);
+		var angleX = -velocityX*delta/radius;
+		var angleZ = -velocityZ*delta/radius;
+		this.rotateOnAxis(this.vectorX, angleX);
+		this.vectorZ.applyAxisAngle(this.vectorX,-angleX);
+		this.rotateOnAxis(this.vectorZ, angleZ);
+		this.vectorX.applyAxisAngle(this.vectorZ,-angleZ);
 	}
 
 	showAxes(){
@@ -112,4 +76,15 @@ class Ball extends Item {
 	increaseVelocity(){
 		this.velocity.multiplyScalar(1.2);
 	}
+
+	predictMovement(delta){
+		var tempPosition = this.position.clone();
+		var tempPositionX = this.velocity.getComponent(0);
+		var tempPositionZ = this.velocity.getComponent(2);
+
+		tempPosition.add(new THREE.Vector3(tempPositionX*delta,0,tempPositionZ*delta));
+
+		return tempPosition
+	}
+
 }
