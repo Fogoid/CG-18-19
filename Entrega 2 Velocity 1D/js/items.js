@@ -28,7 +28,7 @@ function onResize() {
   'use strict'
 
   screen = resize_Aux();
-  var index = 0;
+
   if (window.innerWidth > 0 && window.innerHeight > 0) {
 
           
@@ -45,7 +45,6 @@ function onResize() {
     cameraArray[1].updateProjectionMatrix();
     cameraArray[2].updateProjectionMatrix();
   }
-  
 
   renderer.setSize(window.innerWidth, window.innerHeight)
 }
