@@ -29,10 +29,11 @@ class Ball extends Item {
 	}
 
 	collision(object){
-		this.lastCollision = object.ID;
-
-		if(object.mass==-1)
+		
+		if(object.mass==-1){
 			this.velocity.setComponent(object.limit,-this.velocity.getComponent(object.limit));	
+			this.lastCollision = object.ID;
+		}
 
 		else{
 
@@ -42,10 +43,10 @@ class Ball extends Item {
     		var velocity1 = this.velocity.clone();
     		var coef = (2*object.mass)/(this.mass + object.mass);
 
-    		this.velocity.set(coef*object.velocity.x,coef*object.velocity.y,coef*object.velocity.z);
+    		this.velocity.set(coef*object.velocity.x,0,coef*object.velocity.z);
     		var coef = (2*this.mass)/(object.mass + this.mass);
 
-    		object.velocity.set(coef*velocity1.x,coef*velocity1.y,coef*velocity1.z);
+    		object.velocity.set(coef*velocity1.x,0,coef*velocity1.z);
     		this.lastCollision = object.ID;
    		 	object.lastCollision = this.ID;
 		}
@@ -63,6 +64,8 @@ class Ball extends Item {
 
 		var angleX = -velocityX*delta/radius;
 		var angleZ = -velocityZ*delta/radius;
+		console.log(angleX);
+		console.log(angleZ);
 		this.rotateOnAxis(this.vectorX, angleX);
 		this.vectorZ.applyAxisAngle(this.vectorX,-angleX);
 		this.rotateOnAxis(this.vectorZ, angleZ);
@@ -74,13 +77,13 @@ class Ball extends Item {
 	}
 
 	increaseVelocity(){
-		this.velocity.multiplyScalar(1.2);
+		this.velocity.multiplyScalar(1.15);
 	}
 
 	predictMovement(delta){
 		var tempPosition = this.position.clone();
-		var tempPositionX = this.velocity.getComponent(0);
-		var tempPositionZ = this.velocity.getComponent(2);
+		var tempPositionX = this.velocity.getComponent(0)/2;
+		var tempPositionZ = this.velocity.getComponent(2)/2;
 
 		tempPosition.add(new THREE.Vector3(tempPositionX*delta,0,tempPositionZ*delta));
 

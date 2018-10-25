@@ -58,16 +58,18 @@ class GameBoard extends Item{
 
   updateCycle(delta){
 
-    for(var i=0; i<this.ballsNumber; i++)
-      this.balls[i].updatePosition(delta);
-
     this.collisionCycle(delta);
+    
+    for(var i=0; i<this.ballsNumber; i++){
+      this.balls[i].updatePosition(delta);
+    }
+
     
   }
 
-  wallsCollisions(object){
-    var positionX = object.position.getComponent(0);
-    var positionZ = object.position.getComponent(2);
+  wallsCollisions(object, nextPosition){
+    var positionX = nextPosition.getComponent(0);
+    var positionZ = nextPosition.getComponent(2);
     var lastCollision = object.lastCollision;
 
     if( positionZ <= -this.limitZ && lastCollision!=this.walls[0].ID)
@@ -86,8 +88,9 @@ class GameBoard extends Item{
 
     for(var i=0; i<this.ballsNumber; i++){
 
-      this.wallsCollisions(this.balls[i]);
       var ballPosition = this.balls[i].predictMovement(delta);
+      
+      this.wallsCollisions(this.balls[i], ballPosition);
 
       for(var j=i+1; j<this.ballsNumber; j++){
           var distance = ballPosition.distanceToSquared(this.balls[j].predictMovement(delta));

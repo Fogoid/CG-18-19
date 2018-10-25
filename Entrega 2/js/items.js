@@ -1,5 +1,6 @@
 var cameraArray, active_camera ,scene, renderer;
 var game_board;
+var speedup = 10;
 var clock, delta;
 var keys = [];
 var size = 50;
@@ -101,7 +102,11 @@ function render() {
 }
 
 function Timer() {
-  game_board.increaseBallVelocity();
+  speedup = speedup - 1;
+  if(speedup <= 0)
+    return
+  else
+    game_board.increaseBallVelocity();
 }
 
 function init() {
@@ -114,7 +119,7 @@ function init() {
     document.body.appendChild(renderer.domElement);
 
     clock = new THREE.Clock();
-    setInterval(Timer, 30000);
+    setInterval(Timer, 2000);
 
     createScene();
     cameraArray = [null,null,null,null];
