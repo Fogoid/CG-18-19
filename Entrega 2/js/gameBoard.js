@@ -9,7 +9,7 @@ class GameBoard extends Item{
       this.floor = new Floor(x,y,z,size,this);
       this.walls = [];
       this.balls = [];
-      this.ballsNumber = 1;
+      this.ballsNumber = 5;
 
 
       var width = size;
@@ -19,10 +19,10 @@ class GameBoard extends Item{
       this.limitZ = z+size/2-height/2;
 
 
-      this.walls[0] = new Wall(x,y,-(z+size/2),2*width,height,0,0,this);
-      this.walls[1] = new Wall(x,y,z+size/2,2*width,height,0,1,this);
-      this.walls[2] = new Wall(-(x+size),y,z,width,height,Math.PI/2,2,this);
-      this.walls[3] = new Wall(x+size,y,z,width,height,Math.PI/2,3,this);
+      this.walls[0] = new Wall(x,y,-(z+size/2),2*width,height,0,0,this, 'z');
+      this.walls[1] = new Wall(x,y,z+size/2,2*width,height,0,1,this, 'z');
+      this.walls[2] = new Wall(-(x+size),y,z,width,height,Math.PI/2,2,this, 'x');
+      this.walls[3] = new Wall(x+size,y,z,width,height,Math.PI/2,3,this, 'x');
 
       this.createBalls();
   }
@@ -71,13 +71,13 @@ class GameBoard extends Item{
     var lastCollision = object.lastCollision;
 
     if( positionZ <= -this.limitZ && lastCollision!=this.walls[0].ID)
-      object.collision(this.walls[0],2);
+      object.collision(this.walls[0],2, this.limitZ);
     else if( positionZ >= this.limitZ && lastCollision!=this.walls[1].ID)
-      object.collision(this.walls[1],2);
+      object.collision(this.walls[1],2, this.limitZ);
     else if( positionX <= -this.limitX && lastCollision!=this.walls[2].ID)
-      object.collision(this.walls[2],0);
+      object.collision(this.walls[2],0, this.limitX);
     else if( positionX >= this.limitX && lastCollision!=this.walls[3].ID)
-      object.collision(this.walls[3],0);
+      object.collision(this.walls[3],0, this.limitX);
 
   }
 

@@ -100,12 +100,6 @@ function render() {
   renderer.render(scene, cameraArray[active_camera]);
 }
 
-function updateCameraPos(ball){
-    cameraArray[2].position.x = ball.positionX - (ball.velocity.x)/Math.abs(ball.velocity.x)*game_board.radius;
-    cameraArray[2].position.z = ball.positionZ - (ball.velocity.z)/Math.abs(ball.velocity.z)*game_board.radius;
-    cameraArray[2].lookAt(ball.position);
-}
-
 function Timer() {
   game_board.increaseBallVelocity();
 }
@@ -120,7 +114,7 @@ function init() {
     document.body.appendChild(renderer.domElement);
 
     clock = new THREE.Clock();
-    setInterval(Timer, 12000);
+    setInterval(Timer, 30000);
 
     createScene();
     cameraArray = [null,null,null,null];

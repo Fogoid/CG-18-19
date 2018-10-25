@@ -27,10 +27,10 @@ function createCameras(size, ball) {
     cameraArray[1].lookAt(scene.position);
 
     // Creating the camera that will follow the ball
-    cameraArray[2] = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 500);
-    cameraArray[2].position.z = ball.positionZ - 5;
-    cameraArray[2].position.x = ball.positionX - 5;
-    cameraArray[2].position.y = 15;
+    cameraArray[2] = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 500);
+    cameraArray[2].position.z = ball.positionZ - (ball.velocity.x)/Math.abs(ball.velocity.x)*game_board.radius*2;
+    cameraArray[2].position.x = ball.positionX - (ball.velocity.z)/Math.abs(ball.velocity.z)*game_board.radius*2;
+    cameraArray[2].position.y = ball.radius*4.5;
     cameraArray[2].lookAt(ball.position);
     scene.add(cameraArray[2]);
 }
@@ -41,4 +41,10 @@ function updateCamera(camera){
     camera.top = window.innerHeight / camFactor;
     camera.bottom = -window.innerHeight / camFactor;
     camera.updateProjectionMatrix();
+}
+
+function updateCameraPos(ball){
+    cameraArray[2].position.x = ball.positionX - (ball.velocity.x)/Math.abs(ball.velocity.x)*game_board.radius*2;
+    cameraArray[2].position.z = ball.positionZ - (ball.velocity.z)/Math.abs(ball.velocity.z)*game_board.radius*2;
+    cameraArray[2].lookAt(ball.position);
 }
