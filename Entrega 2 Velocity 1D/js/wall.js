@@ -10,7 +10,7 @@ class Wall extends Item {
 		this.limit = limit;
 
 		var geometry = new THREE.CubeGeometry(width,height,0);
-		var material = new THREE.MeshBasicMaterial({ color: 0x6699ff, wireframe: false });
+		var material = new THREE.MeshBasicMaterial({ color: 0x66545e, wireframe: false });
 		var mesh = new THREE.Mesh(geometry,material);
 
 		this.add(mesh);

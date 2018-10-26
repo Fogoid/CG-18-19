@@ -14,12 +14,12 @@ class Ball extends Item {
 		this.ID = "ball_"+ID;
 		this.lastCollision = null;
 
-		this.axes = new THREE.AxisHelper(1.5*radius); 
+		this.axes = new THREE.AxisHelper(1.5*radius);
 		this.vectorX = new THREE.Vector3(-1,0,0);
 		this.vectorZ = new THREE.Vector3(0,0,1);
 
 		var geometry = new THREE.SphereGeometry(radius,32,32)
-		var material = new THREE.MeshBasicMaterial({ color: 0xffd1b3, wireframe: false});
+		var material = new THREE.MeshBasicMaterial({ color: 0xffbdbd, wireframe: false});
 		var mesh = new THREE.Mesh(geometry,material);
 
 		this.add(mesh);
@@ -37,9 +37,9 @@ class Ball extends Item {
 	}
 
 	collision(object){
-		
+
 		if(object.mass==-1){
-			this.velocity.setComponent(object.limit,-this.velocity.getComponent(object.limit));	
+			this.velocity.setComponent(object.limit,-this.velocity.getComponent(object.limit));
 			this.lastCollision = object.ID;
 		}
 
@@ -48,7 +48,7 @@ class Ball extends Item {
 			if(this.lastCollision==object.ID && object.lastCollision==this.ID)
       			return 0;
 
-      		var vel_DifX = this.velocity.x - object.velocity.x;
+      			var vel_DifX = this.velocity.x - object.velocity.x;
             var vel_DifZ = this.velocity.z - object.velocity.z;
 
             var dist_X = object.position.x - this.position.x;
@@ -85,7 +85,7 @@ class Ball extends Item {
 		this.positionX += velocityX*delta;
 		this.positionZ += velocityZ*delta;
 		var radius = this.radius;
-      		
+
 		this.position.set(this.positionX,this.positionY,this.positionZ);
 
 		var angleX = -velocityX*delta/radius;
@@ -99,7 +99,7 @@ class Ball extends Item {
 	}
 
 	showAxes(){
-		this.axes.visible = !this.axes.visible; 
+		this.axes.visible = !this.axes.visible;
 	}
 
 	increaseVelocity(){
