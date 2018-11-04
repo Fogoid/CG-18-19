@@ -1,4 +1,4 @@
-var cameraArray, active_camera ,scene, renderer;
+var scene, renderer, camera;
 var speedup = 10;
 var clock, delta;
 var keys = [];
@@ -50,31 +50,12 @@ function onResize() {
   screen = resize_Aux();
 
   if (window.innerWidth > 0 && window.innerHeight > 0) {
-    cameraArray[0].aspect = screen[0]/screen[1];
-    cameraArray[0].updateProjectionMatrix();
+    camera.aspect = screen[0]/screen[1];
+    camera.updateProjectionMatrix();
   }
 
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
-
-function resize_Aux() {
-    'use strict'
-
-    var aspect = 16/9;
-    var scale = window.innerWidth / window.innerHeight;
-
-    if(scale > aspect) {
-        var width = scale * 50;
-        var height = 50;
-    }
-    else {
-        var width = aspect * 50;
-        var height = width / scale;
-    }
-
-    return [width, height]
-}
-
 
 function onKeyDown(e) {
     'use strict'
@@ -85,13 +66,13 @@ function onKeyDown(e) {
         case 38: //up arrow key
         case 39: //right arrow key    
         case 40: //down arrow key
-        case 78: //N -> "turns off" the sun
+        case 78: //N ->	switch the ambient light
             keys[e.keyCode] = true;
             break;
-        case 49: //1 -> turns of spotlight[0]
-        case 50: //2 -> turns of spotlight[1]
-        case 51: //3 -> turns of spotlight[2]
-        case 52: //4 -> turns of spotlight[3]
+        case 49: //1 -> switch spotlight[0]
+        case 50: //2 -> switch spotlight[1]
+        case 51: //3 -> switch spotlight[2]
+        case 52: //4 -> switch spotlight[3]
             keys[e.keyCode - 49] = 1;
             break;
     }
@@ -128,7 +109,7 @@ function render() {
       }
   }
 
-  renderer.render(scene, cameraArray[active_camera]);
+  renderer.render(scene, camera);
 }
 
 function init() {
@@ -143,8 +124,6 @@ function init() {
     clock = new THREE.Clock();
 
     createScene();
-    cameraArray = [null];
-    active_camera=0;
     createCameras(size);
 
     render();
