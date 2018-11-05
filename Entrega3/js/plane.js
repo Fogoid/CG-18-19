@@ -6,29 +6,27 @@ class Plane extends Item{
 
         super(x, y, z);
 
-        this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x00ff00} );
+        /*this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x00ff00} );
         this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
         var geometry = new THREE.SphereGeometry(10, 5, 20);
-        this.mesh = new THREE.Mesh(geometry, this.lambertMaterial);
+        this.mesh = new THREE.Mesh(geometry, this.lambertMaterial);*/
 
-        /*var geometry = new THREE.Geometry();
 
-    	geometry.vertices.push(
-    		new THREE.Vector3(0,0,0),
-    		new THREE.Vector3(0,15,0),
-    		new THREE.Vector3(0,0,15),
-    		new THREE.Vector3(0,15,15)
-    	);
 
-    	geometry.faces.push(
-    		new THREE.Face3(0,1,2),
-    		new THREE.Face3(3,2,1)
-    	);
+        /*var u = new THREE.Vector3(0,0,0);
+        var v = new THREE.Vector3(15,0,0);
+        var w = new THREE.Vector3(0,15,0);
+        var z = new THREE.Vector3(15,15,0);
 
-    	this.mesh = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial() );
-    	geometry.computeFaceNormals();*/
+        var geometries = super.createSquare(u,v,w,z);
 
-        this.add(this.mesh);
+    	var bottom = new THREE.Mesh(geometries[0], new THREE.MeshNormalMaterial() );
+    	var top = new THREE.Mesh(geometries[1], new THREE.MeshNormalMaterial() );
+
+        this.add(bottom);
+        this.add(top);*/
+
+        this.add(new PlaneWing(x,y,z,1,10))
     }
 
     changeMaterial() {

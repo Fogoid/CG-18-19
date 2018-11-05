@@ -1,4 +1,4 @@
-var scene, renderer, camera;
+var scene, renderer, camera, controls;
 var speedup = 10;
 var clock, delta;
 var keys = [];
@@ -14,11 +14,24 @@ class Item extends THREE.Object3D {
       super();
       this.position.set(x, y, z);
   }
+
+  createTriangle(u,v,w){
+  	var geometry = new THREE.Geometry();
+  	geometry.vertices.push(u,v,w);
+  	geometry.faces.push( new THREE.Face3(0,1,2));
+  	geometry.computeFaceNormals();
+	return geometry;  
+  }
+
+   createSquare(u,v,w,z){
+  	var triangle1 = this.createTriangle(u,v,w);
+  	var triangle2 = this.createTriangle(z,w,v);
+  	return [triangle1,triangle2]   
+  }
+
 }
 
-function createTriangle(u, v, w, i, geometry){
 
-}
 
 function createSpotlights() {
 
@@ -160,6 +173,7 @@ function animate() {
     'use strict';
 
     update();
+    controls.update();
     render();
     requestAnimationFrame(animate);
 }

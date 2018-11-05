@@ -11,7 +11,7 @@ function createCameras(size) {
     camera.position.y = 2*size;//1.2*size;
     camera.position.z = 2*size;//size;
     camera.lookAt(scene.position);
-    
+    controls = new THREE.OrbitControls(camera);
 }
 
 function resize_Aux() {
