@@ -119,4 +119,7 @@ class Item extends THREE.Object3D {
    }
 
 
+  changeMaterial() {
+    this.mesh.material = this.mesh.material == this.lambertMaterial ? this.phongMaterial : this.lambertMaterial;
+  }
 }

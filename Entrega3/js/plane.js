@@ -11,11 +11,14 @@ class Plane extends Item{
         var geometry = new THREE.SphereGeometry(10, 5, 20);
         this.mesh = new THREE.Mesh(geometry, this.lambertMaterial);*/
 
-        this.add(new PlaneFuselage(x,y,z,3,10));
+        this.add(new PlaneFuselage(x,y,z,4,8));
     }
 
-    changeMaterial() {
-        this.mesh.material = this.mesh.material == this.lambertMaterial ? this.phongMaterial : this.lambertMaterial;
+    changeChildrenMaterial() {
+
+        for (var i=0; i < this.children.length; i++) {
+          this.children[i].changeMaterial();  
+        }
     }
 
     makeHorizontalMovement(side, delta){

@@ -88,7 +88,7 @@ function update() {
     delta = clock.getDelta();
 
     if (keys[71]) {
-        plane.changeMaterial();
+        plane.changeChildrenMaterial();
         keys[71] = false;
     }
     if (keys[78]) {
