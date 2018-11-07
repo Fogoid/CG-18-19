@@ -21,9 +21,19 @@ class PlaneFuselage extends Item {
     middleTop.merge(middleFront);
     middleTop.merge(middleBack);
 
-    var frontTop = super.createTrapezoid(x, y, z, squareSize, widthSquares, heightSquares, 2*heightSquares, null);
-    middleTop.merge(frontTop);
-    //var top = super.createTrapezoid(x, y, z, squareSize, segments, size, 0, null);
+    /*var frontTop = super.createTrapezoid(x, y, z, squareSize, heightSquares, widthSquares/3, widthSquares, null);
+    var frontBottom = super.createTrapezoid(x, y, z-(heightSquares-1)*squareSize, squareSize, heightSquares, widthSquares/3, widthSquares,null);
+    var frontLeftRectangle = super.createRectangle(x, y, z, squareSize, heightSquares, (heightSquares-1)*squareSize, null);
+    var frontRightRectangle = super.createRectangle(x, y, z, squareSize, heightSquares, (heightSquares-1)*squareSize, null);
+    var frontFront = super.createRectangle(x, y, z, squareSize, heightSquares-1, widthSquares, null);*/
+
+
+
+    /*middleTop.merge(frontTop);
+    middleTop.merge(frontBottom);
+    middleTop.merge(frontLeftRectangle);
+    middleTop.merge(frontRightRectangle);
+    middleTop.merge(frontFront);*/
 
     this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0xffb3ba } );
     this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0xffb3ba } );

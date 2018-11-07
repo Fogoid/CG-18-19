@@ -55,14 +55,19 @@ class Item extends THREE.Object3D {
 
    createTrapezoid(x, y, z, squareSize, heightSquares, widthSquaresTop, widthSquaresBottom, rotation){
      var final = new THREE.Geometry();
-     //var middleRectangle = this.createRectangle(x, y, z, squareSize, heightSquares, widthSquaresTop, null);
-     var leftTriangle = this.createTriangleChain(x, y, z, 40, 20, 10, null,1);
-     var rightTriangle = this.createTriangleChain(x, y, z, 40, 20, 10, new THREE.Vector3(Math.PI,0,0),-1);
-     //final.merge(middleRectangle);
+     var middleRectangle = this.createRectangle(x, y, z, squareSize, heightSquares, widthSquaresTop, null);
+     var leftTriangle = this.createBigTriangle(x-widthSquaresTop-(widthSquaresBottom-widthSquaresTop)/2, y, z, (heightSquares)*squareSize, (widthSquaresBottom-widthSquaresTop)/2*squareSize, null ,-1);
+     var rightTriangle = this.createBigTriangle(x+(widthSquaresTop+(1/3))*squareSize, y, z, (heightSquares)*squareSize, (widthSquaresBottom-widthSquaresTop)/2*squareSize, null,-1);
+     final.merge(middleRectangle);
 
-     leftTriangle.translate(0,squareSize*heightSquares,0);
      final.merge(leftTriangle);
      final.merge(rightTriangle);
+
+     if(rotation!=null){
+      final.rotateX(rotation.x);
+      final.rotateY(rotation.y);
+      final.rotateZ(rotation.z);
+     }
 
      return final;
    }
@@ -98,6 +103,29 @@ class Item extends THREE.Object3D {
       triangle.translate(diagonalVertex.x*i,diagonalVertex.y*i,0);
       final.merge(triangle);
     }
+
+    if(rotation!=null){
+      final.rotateX(rotation.x);
+      final.rotateY(rotation.y);
+      final.rotateZ(rotation.z);
+    }
+    return final;
+   }
+
+   createBigTriangle(x,y,z,height,bottom,rotation,normalOrientation){
+
+    var final = new THREE.Geometry();
+
+    var base = new THREE.Vector3(x,y,z);
+    var topVertex = new THREE.Vector3(x,y+height,z);
+    var bottomVertex = new THREE.Vector3(x+bottom,y,z);
+
+    if(normalOrientation ==1)
+      var triangle = this.createTriangle(base,topVertex,bottomVertex);
+    else
+      var triangle = this.createTriangle(base,bottomVertex,topVertex);
+
+    final.merge(triangle);
 
     if(rotation!=null){
       final.rotateX(rotation.x);
