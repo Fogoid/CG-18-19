@@ -1,13 +1,10 @@
 class PlaneFuselage extends Item {
-  constructor(x, y, z) {
+  constructor(x, y, z,height,width,depth) {
     'use strict';
 
     super(x, y, z);
 
     var squareSize = 1;
-    var height = 5;
-    var width = 10;
-    var depth = 20;
 
     var middleTop = super.createRectangle(x-width/2, y-depth/2, z, squareSize, depth, width,  new THREE.Vector3(Math.PI/2,0,0), -1);
     middleTop.translate(0,height/2,0);
@@ -67,7 +64,7 @@ class PlaneFuselage extends Item {
     this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0xffb3ba } );
     this.mesh = new THREE.Mesh(middleTop, this.lambertMaterial);
     this.add(this.mesh);
-    console.log(this.position);
+
   }
 
 }

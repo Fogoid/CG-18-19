@@ -11,8 +11,14 @@ class Plane extends Item{
         var geometry = new THREE.SphereGeometry(10, 5, 20);
         this.mesh = new THREE.Mesh(geometry, this.lambertMaterial);*/
 
-        var planeFuselage = new PlaneFuselage(x,y,z);
-        this.add(planeFuselage);       
+        var planeFuselage = new PlaneFuselage(x,y,z,5,10,20);
+        this.add(planeFuselage);
+
+        var planeWings = new PlaneWing(x,y,z);
+        this.add(planeWings);       
+
+        var planeStabilizers = new PlaneStabilizer(x,y,z,5,10,20);
+        this.add(planeStabilizers);       
     }
 
     changeChildrenMaterial() {
