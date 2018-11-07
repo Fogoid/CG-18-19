@@ -7,32 +7,6 @@ var plane, sun;
 var spotlights = [];
 var turnSpotLights = [0, 0, 0, 0], turnSun = 0;
 
-class Item extends THREE.Object3D {
-  constructor(x, y, z) {
-      'use strict';
-
-      super();
-      this.position.set(x, y, z);
-  }
-
-  createTriangle(u,v,w){
-  	var geometry = new THREE.Geometry();
-  	geometry.vertices.push(u,v,w);
-  	geometry.faces.push( new THREE.Face3(0,1,2));
-  	geometry.computeFaceNormals();
-	return geometry;  
-  }
-
-   createSquare(u,v,w,z){
-  	var triangle1 = this.createTriangle(u,v,w);
-  	var triangle2 = this.createTriangle(z,w,v);
-  	return [triangle1,triangle2]   
-  }
-
-}
-
-
-
 function createSpotlights() {
 
     spotlights[0] = new spotLight(25, 0, 25);
@@ -82,7 +56,7 @@ function onKeyUp(e) {
     switch(e.keyCode){
         case 37: //left arrow key
         case 38: //up arrow key
-        case 39: //right arrow key    
+        case 39: //right arrow key
         case 40: //down arrow key
             keys[e.keyCode] = false;
             break;
@@ -114,7 +88,7 @@ function update() {
     delta = clock.getDelta();
 
     if (keys[71]) {
-        plane.changeMaterial();
+        plane.changeChildrenMaterial();
         keys[71] = false;
     }
     if (keys[78]) {
@@ -134,7 +108,7 @@ function update() {
     if(keys[40] && !keys[38]){
         plane.makeVerticalMovement(1, delta);
     }
-    
+
     for(var i = 0; i < 4; i++){
       if(keys[i]){
           spotlights[i].turnOnOff();

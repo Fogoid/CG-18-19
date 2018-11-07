@@ -1,21 +1,26 @@
 class Plane extends Item{
-    
+
 
     constructor(x, y, z, base, height) {
         'use strict'
 
         super(x, y, z);
 
-        this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x00ff00} );
+        /*this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x00ff00} );
         this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
         var geometry = new THREE.SphereGeometry(10, 5, 20);
-        this.mesh = new THREE.Mesh(geometry, this.lambertMaterial);
-        
-        this.add(this.mesh);
+        this.mesh = new THREE.Mesh(geometry, this.lambertMaterial);*/
+
+        var planeFuselage = new PlaneFuselage(x,y,z,4,8);
+        planeFuselage.position.set(-2*2,-2*2,-4*2);
+        this.add(planeFuselage);
     }
 
-    changeMaterial() {
-        this.mesh.material = this.mesh.material == this.lambertMaterial ? this.phongMaterial : this.lambertMaterial;
+    changeChildrenMaterial() {
+
+        for (var i=0; i < this.children.length; i++) {
+          this.children[i].changeMaterial();
+        }
     }
 
     makeHorizontalMovement(side, delta){
