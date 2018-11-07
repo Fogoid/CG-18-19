@@ -56,7 +56,7 @@ function onKeyUp(e) {
     switch(e.keyCode){
         case 37: //left arrow key
         case 38: //up arrow key
-        case 39: //right arrow key    
+        case 39: //right arrow key
         case 40: //down arrow key
             keys[e.keyCode] = false;
             break;
@@ -108,7 +108,7 @@ function update() {
     if(keys[40] && !keys[38]){
         plane.makeVerticalMovement(1, delta);
     }
-    
+
     for(var i = 0; i < 4; i++){
       if(keys[i]){
           spotlights[i].turnOnOff();

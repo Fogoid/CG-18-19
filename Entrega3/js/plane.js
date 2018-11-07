@@ -1,5 +1,5 @@
 class Plane extends Item{
-    
+
 
     constructor(x, y, z, base, height) {
         'use strict'
@@ -11,13 +11,15 @@ class Plane extends Item{
         var geometry = new THREE.SphereGeometry(10, 5, 20);
         this.mesh = new THREE.Mesh(geometry, this.lambertMaterial);*/
 
-        this.add(new PlaneFuselage(x,y,z,4,8));
+        var planeFuselage = new PlaneFuselage(x,y,z,4,8);
+        planeFuselage.position.set(-2*2,-2*2,-4*2);
+        this.add(planeFuselage);
     }
 
     changeChildrenMaterial() {
 
         for (var i=0; i < this.children.length; i++) {
-          this.children[i].changeMaterial();  
+          this.children[i].changeMaterial();
         }
     }
 

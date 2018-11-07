@@ -1,29 +1,33 @@
 class PlaneFuselage extends Item {
-  constructor(x, y, z, segments, size) {
+  constructor(x, y, z, heightSquares, widthSquares) {
     'use strict';
 
     super(x, y, z);
 
     var squareSize = 2;
+    heightSquares = 6;
+    widthSquares = 8;
 
-    var top = super.createRectangle(x, y, z+(segments-1)*squareSize, squareSize, segments, size, new THREE.Vector3(-Math.PI/2,-Math.PI/2,0));
-    var bottom = super.createRectangle(x, y-segments*squareSize, z, squareSize, segments, size, new THREE.Vector3(-Math.PI/2,-Math.PI/2,Math.PI));
-    var left = super.createRectangle(x, y, z, squareSize, segments-1, size, new THREE.Vector3(0,-Math.PI/2,0));
-    var right = super.createRectangle(x-size*squareSize, y, z+segments*squareSize, squareSize, segments-1, size, new THREE.Vector3(0,Math.PI/2,0));
-    var front = super.createRectangle(x, y, z+size*squareSize, squareSize, segments-1, segments*squareSize/2, null);
-    var back = super.createRectangle(x-segments*squareSize, y, z, squareSize, segments-1, segments*squareSize/2, new THREE.Vector3(0,Math.PI,0));
-    
-    top.merge(bottom);
-    top.merge(left);
-    top.merge(right);
-    top.merge(front);
-    top.merge(back);
+    var middleTop = super.createRectangle(x, y, z+(heightSquares-1)*squareSize, squareSize, heightSquares, widthSquares, new THREE.Vector3(-Math.PI/2,-Math.PI/2,0));
+    var middleBottom = super.createRectangle(x, y-heightSquares*squareSize, z, squareSize, heightSquares, widthSquares, new THREE.Vector3(-Math.PI/2,-Math.PI/2,Math.PI));
+    var middleLeft = super.createRectangle(x, y, z, squareSize, heightSquares-1, widthSquares, new THREE.Vector3(0,-Math.PI/2,0));
+    var middleRight = super.createRectangle(x-widthSquares*squareSize, y, z+heightSquares*squareSize, squareSize, heightSquares-1, widthSquares, new THREE.Vector3(0,Math.PI/2,0));
+    var middleFront = super.createRectangle(x, y, z+widthSquares*squareSize, squareSize, heightSquares-1, heightSquares*squareSize/2, null);
+    var middleBack = super.createRectangle(x-heightSquares*squareSize, y, z, squareSize, heightSquares-1, heightSquares*squareSize/2, new THREE.Vector3(0,Math.PI,0));
 
+    middleTop.merge(middleBottom);
+    middleTop.merge(middleLeft);
+    middleTop.merge(middleRight);
+    middleTop.merge(middleFront);
+    middleTop.merge(middleBack);
+
+    var frontTop = super.createTrapezoid(x, y, z, squareSize, widthSquares, heightSquares, 2*heightSquares, null);
+    middleTop.merge(frontTop);
     //var top = super.createTrapezoid(x, y, z, squareSize, segments, size, 0, null);
 
     this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0xffb3ba } );
     this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0xffb3ba } );
-    this.mesh = new THREE.Mesh(top, this.lambertMaterial);
+    this.mesh = new THREE.Mesh(middleTop, this.lambertMaterial);
     this.add(this.mesh);
 
   }
