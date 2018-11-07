@@ -1,45 +1,73 @@
 class PlaneFuselage extends Item {
-  constructor(x, y, z, heightSquares, widthSquares) {
+  constructor(x, y, z) {
     'use strict';
 
     super(x, y, z);
 
-    var squareSize = 2;
-    heightSquares = 6;
-    widthSquares = 8;
+    var squareSize = 1;
+    var height = 5;
+    var width = 10;
+    var depth = 20;
 
-    var middleTop = super.createRectangle(x, y, z+(heightSquares-1)*squareSize, squareSize, heightSquares, widthSquares, new THREE.Vector3(-Math.PI/2,-Math.PI/2,0));
-    var middleBottom = super.createRectangle(x, y-heightSquares*squareSize, z, squareSize, heightSquares, widthSquares, new THREE.Vector3(-Math.PI/2,-Math.PI/2,Math.PI));
-    var middleLeft = super.createRectangle(x, y, z, squareSize, heightSquares-1, widthSquares, new THREE.Vector3(0,-Math.PI/2,0));
-    var middleRight = super.createRectangle(x-widthSquares*squareSize, y, z+heightSquares*squareSize, squareSize, heightSquares-1, widthSquares, new THREE.Vector3(0,Math.PI/2,0));
-    var middleFront = super.createRectangle(x, y, z+widthSquares*squareSize, squareSize, heightSquares-1, heightSquares*squareSize/2, null);
-    var middleBack = super.createRectangle(x-heightSquares*squareSize, y, z, squareSize, heightSquares-1, heightSquares*squareSize/2, new THREE.Vector3(0,Math.PI,0));
+    var middleTop = super.createRectangle(x-width/2, y-depth/2, z, squareSize, depth, width,  new THREE.Vector3(Math.PI/2,0,0), -1);
+    middleTop.translate(0,height/2,0);
+    var middleBot = super.createRectangle(x-width/2, y-depth/2, z, squareSize, depth , width,  new THREE.Vector3(Math.PI/2,0,0), 1);
+    middleBot.translate(0,-height/2,0);
 
-    middleTop.merge(middleBottom);
-    middleTop.merge(middleLeft);
-    middleTop.merge(middleRight);
+    var middleFront = super.createRectangle(x-width/2, y-height/2, z, squareSize, height, width , null,1);
+    middleFront.translate(0,0,depth/2);
+    var middleBack = super.createRectangle(x-width/2, y-height/2, z, squareSize, height, width , null, -1);
+    middleBack.translate(0,0,-depth/2);
+
+    var middleLeft = super.createRectangle(x-depth/2, y-height/2, z, squareSize, height, depth , new THREE.Vector3(0,Math.PI/2,0),-1);
+    middleLeft.translate(-width/2,0,0);
+    var middleRight = super.createRectangle(x-depth/2, y-height/2, z, squareSize, height, depth , new THREE.Vector3(0,Math.PI/2,0),1);
+    middleRight.translate(width/2,0,0);
+
+    middleTop.merge(middleBot);
     middleTop.merge(middleFront);
     middleTop.merge(middleBack);
+    middleTop.merge(middleLeft);
+    middleTop.merge(middleRight);
 
-    /*var frontTop = super.createTrapezoid(x, y, z, squareSize, heightSquares, widthSquares/3, widthSquares, null);
-    var frontBottom = super.createTrapezoid(x, y, z-(heightSquares-1)*squareSize, squareSize, heightSquares, widthSquares/3, widthSquares,null);
-    var frontLeftRectangle = super.createRectangle(x, y, z, squareSize, heightSquares, (heightSquares-1)*squareSize, null);
-    var frontRightRectangle = super.createRectangle(x, y, z, squareSize, heightSquares, (heightSquares-1)*squareSize, null);
-    var frontFront = super.createRectangle(x, y, z, squareSize, heightSquares-1, widthSquares, null);*/
+    var frontTop = super.createTrapezoid(x, y, z, squareSize, height, width/5, width, new THREE.Vector3(Math.PI/2,0,0), -1);
+    frontTop.translate(0,height/2,0);
 
+    var frontBottom = super.createTrapezoid(x, y, z, squareSize, height, width/5, width, new THREE.Vector3(Math.PI/2,0,0), 1);
+    frontBottom.translate(0,-height/2,0);
 
+    var frontFront = super.createRectangle(x-width/10,y-height/2,z, squareSize, height, width/5,null,1);
+    frontFront.translate(0,0,height/2);
 
-    /*middleTop.merge(frontTop);
-    middleTop.merge(frontBottom);
-    middleTop.merge(frontLeftRectangle);
-    middleTop.merge(frontRightRectangle);
-    middleTop.merge(frontFront);*/
+    var diagonal = Math.sqrt(Math.pow((width - width/5)/2,2) + Math.pow(height,2)); 
+    var angle = Math.atan(height/((width - width/5)/2));
+
+    var frontLeft = super.createRectangle(x-diagonal/2,y-height/2,z, squareSize, height, diagonal,new THREE.Vector3(0,angle,0),1);
+    frontLeft.translate(width/2-width/5,0,0);
+
+    var frontRight = super.createRectangle(x-diagonal/2,y-height/2,z, squareSize, height, diagonal,new THREE.Vector3(0,-angle,0),1);
+    frontRight.translate(-width/2+width/5,0,0);
+    
+
+    frontTop.merge(frontBottom);
+    frontTop.merge(frontFront);
+    frontTop.merge(frontLeft);
+    frontTop.merge(frontRight);
+
+    var backTop = frontTop.clone();
+    backTop.rotateX(Math.PI);
+
+    frontTop.translate(0,0,depth/2+height/2);
+    backTop.translate(0,0,-(depth/2+height/2));
+
+    middleTop.merge(frontTop);
+    middleTop.merge(backTop);
 
     this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0xffb3ba } );
     this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0xffb3ba } );
     this.mesh = new THREE.Mesh(middleTop, this.lambertMaterial);
     this.add(this.mesh);
-
+    console.log(this.position);
   }
 
 }
