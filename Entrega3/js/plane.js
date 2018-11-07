@@ -6,27 +6,12 @@ class Plane extends Item{
 
         super(x, y, z);
 
-        /*this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x00ff00} );
+        this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x00ff00} );
         this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
         var geometry = new THREE.SphereGeometry(10, 5, 20);
-        this.mesh = new THREE.Mesh(geometry, this.lambertMaterial);*/
-
-
-
-        /*var u = new THREE.Vector3(0,0,0);
-        var v = new THREE.Vector3(15,0,0);
-        var w = new THREE.Vector3(0,15,0);
-        var z = new THREE.Vector3(15,15,0);
-
-        var geometries = super.createSquare(u,v,w,z);
-
-    	var bottom = new THREE.Mesh(geometries[0], new THREE.MeshNormalMaterial() );
-    	var top = new THREE.Mesh(geometries[1], new THREE.MeshNormalMaterial() );
-
-        this.add(bottom);
-        this.add(top);*/
-
-        this.add(new PlaneWing(x,y,z,1,10))
+        this.mesh = new THREE.Mesh(geometry, this.lambertMaterial);
+        
+        this.add(this.mesh);
     }
 
     changeMaterial() {
