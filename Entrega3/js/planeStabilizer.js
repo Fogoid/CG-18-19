@@ -13,11 +13,11 @@ class PlaneStabilizer extends Item {
       var diagonal = Math.sqrt(Math.pow(height,2) + Math.pow(depth,2)); 
       var angle = Math.atan(height/depth);
 
-	  var stabilizerFront = super.createRectangle(x-width/2, y-diagonal/2, z, squareSize, diagonal, width, new THREE.Vector3(-(Math.PI/2-angle),0,0), 1);
-	  stabilizerFront.translate(0,(3*y+height)/6,(3*x+depth)/6);
+      var stabilizerFront = super.createRectangle(x-width/2, y-diagonal/2, z, squareSize, diagonal, width, new THREE.Vector3(-(Math.PI/2-angle),0,0), 1);
+	stabilizerFront.translate(0,(3*y+height)/6,(3*x+depth)/6);
 
-	  var stabilizerLeft = super.createBigTriangle(x-(3*x+depth)/3, y-(3*y+height)/3, z, height, depth, new THREE.Vector3(0,-Math.PI/2,0), -1,"right");
-	  stabilizerLeft.translate(-width/2,0,0);
+	var stabilizerLeft = super.createBigTriangle(x-(3*x+depth)/3, y-(3*y+height)/3, z, height, depth, new THREE.Vector3(0,-Math.PI/2,0), -1,"right");
+	stabilizerLeft.translate(-width/2,0,0);
 
       var stabilizerRight = super.createBigTriangle(x-(3*x+2*depth)/3, y-(3*y+height)/3, z, height, depth, new THREE.Vector3(0,Math.PI/2,0), 1);
       stabilizerRight.translate(width/2,0,0);
@@ -29,15 +29,48 @@ class PlaneStabilizer extends Item {
       stabilizerFront.merge(stabilizerRight);
       stabilizerFront.merge(stabilizerBack);
 
-      var stabilizerLeft = stabilizerFront.clone();
-      var stabilizerRight = stabilizerFront.clone();
+      stabilizerFront.translate(0,fuselageHeight/2,-(fuselageDepth/2+fuselageHeight/2));
 
-      stabilizerFront.translate(0,fuselageHeight/2,0);
+
+
+      var leftStabilizerFront = super.createRectangle(x-width/2, y-diagonal/2, z, squareSize, diagonal, width, new THREE.Vector3(-(Math.PI/2-angle),0,0), 1);
+      leftStabilizerFront.translate(0,(3*y+height)/6,(3*x+depth)/6);
+
+      var leftStabilizerLeft = super.createBigTriangle(x-(3*x+depth)/3, y-(3*y+height)/3, z, height, depth, new THREE.Vector3(0,-Math.PI/2,0), -1,"right");
+      leftStabilizerLeft.translate(-width/2,0,0);
+
+      var leftStabilizerRight = super.createBigTriangle(x-(3*x+2*depth)/3, y-(3*y+height)/3, z, height, depth, new THREE.Vector3(0,Math.PI/2,0), 1);
+      leftStabilizerRight.translate(width/2,0,0);
+
+      var leftStabilizerBack = super.createRectangle(x-width/2, y-height/2, z, squareSize, height, width, new THREE.Vector3(0,0,0), -1);
+      leftStabilizerBack.translate(0,(3*y+height)/6,-(3*x+2*depth)/6);
+      
+      leftStabilizerFront.merge(leftStabilizerLeft);
+      leftStabilizerFront.merge(leftStabilizerRight);
+      leftStabilizerFront.merge(leftStabilizerBack);
+
+      leftStabilizerFront.scale(1,1.5,1.5);
+      var rightStabilizerFront = leftStabilizerFront.clone();      
+
+      leftStabilizerFront.rotateZ(Math.PI/2);
+      leftStabilizerFront.rotateX(Math.PI);
+      leftStabilizerFront.rotateY(-angle);
+      leftStabilizerFront.translate(-depth,0,-12.5);
+
+      rightStabilizerFront.rotateZ(-Math.PI/2);
+      rightStabilizerFront.rotateX(-Math.PI);
+      rightStabilizerFront.rotateY(angle);
+      rightStabilizerFront.translate(depth,0,-12.5);
+
+      stabilizerFront.merge(leftStabilizerFront);
+      stabilizerFront.merge(rightStabilizerFront);
+
+      /*var stabilizerLeft = stabilizerFront.clone();
+      var stabilizerRight = stabilizerFront.clone();
 
       stabilizerLeft.rotateZ(Math.PI/2);
       stabilizerLeft.rotateY(-angle);
       stabilizerLeft.translate(-(fuselageWidth/2-fuselageWidth/10),0,0);
-
       
       stabilizerRight.rotateZ(-Math.PI/2);
       stabilizerRight.rotateY(angle);
@@ -45,8 +78,8 @@ class PlaneStabilizer extends Item {
 
       stabilizerFront.merge(stabilizerLeft);
       stabilizerFront.merge(stabilizerRight);
+      */
 
-      stabilizerFront.translate(0,0,-(fuselageDepth/2+fuselageHeight/2));
 
       this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x193D66 } );
       this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0x193D66 } );
