@@ -6,11 +6,6 @@ class Plane extends Item{
 
         super(x, y, z);
 
-        /*this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x00ff00} );
-        this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
-        var geometry = new THREE.SphereGeometry(10, 5, 20);
-        this.mesh = new THREE.Mesh(geometry, this.lambertMaterial);*/
-
         var planeFuselage = new PlaneFuselage(x,y,z,5,10,20);
         this.add(planeFuselage);
 

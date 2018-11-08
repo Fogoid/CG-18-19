@@ -9,10 +9,10 @@ var turnSpotLights = [0, 0, 0, 0], turnSun = 0;
 
 function createSpotlights() {
 
-    spotlights[0] = new spotLight(25, 0, 25);
-    spotlights[1] = new spotLight(25, 0, -25);
-    spotlights[2] = new spotLight(-25, 0, 25);
-    spotlights[3] = new spotLight(-25, 0, -25);
+    spotlights[0] = new spotLight(25, 25, 25,new THREE.Vector3(Math.PI/4,0,-Math.PI/4));
+    spotlights[1] = new spotLight(25, 25, -25,new THREE.Vector3(-Math.PI/4,0,-Math.PI/4));
+    spotlights[2] = new spotLight(-25, 25, 25,new THREE.Vector3(Math.PI/4,0,Math.PI/4));
+    spotlights[3] = new spotLight(-25, 25, -25,new THREE.Vector3(-Math.PI/4,0,Math.PI/4));
 
     for(var i = 0; i < 4; i++){
         scene.add(spotlights[i]);

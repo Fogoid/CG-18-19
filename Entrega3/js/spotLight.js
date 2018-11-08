@@ -1,16 +1,16 @@
 class spotLight extends Item{
-    constructor(x, y, z){
+    constructor(x, y, z,rotation){
         'use strict'
 
         super(x, y, z);
 
         var coneGeometry = new THREE.ConeGeometry(3.5, 7, 64, 64);
-        var coneMaterial = new THREE.MeshBasicMaterial( 0x0000ff );
+        var coneMaterial = new THREE.MeshBasicMaterial( {color: 0xD3D3D3} );
         this.cone = new THREE.Mesh(coneGeometry, coneMaterial);
         this.cone.position.set(0,0,0);
         
         var sphereGeometry = new THREE.SphereGeometry(1, 20, 20);
-        var sphereMaterial = new THREE.MeshLambertMaterial( 0x0000ff );
+        var sphereMaterial = new THREE.MeshLambertMaterial( 0xffffff );
         this.sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
         this.sphere.position.set(0, -3.5, 0);
         this.sphere.material.emissive.set( 0xffffff );
@@ -21,6 +21,12 @@ class spotLight extends Item{
         this.add(this.cone);
         this.add(this.sphere);
         this.add(this.light);
+
+        if(rotation!=null){
+          this.rotateX(rotation.x);
+          this.rotateY(rotation.y);
+          this.rotateZ(rotation.z);
+        }
     }
 
     turnOnOff(){
