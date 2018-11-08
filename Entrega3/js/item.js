@@ -119,37 +119,41 @@ class Item extends THREE.Object3D {
     return final;
    }
 
-   createTriangleChain(x,y,z,height,bottom,numberOfSquares,rotation,normalOrientation){
-
-    var ratio = height/bottom;
-
-    var base = new THREE.Vector3(x,y,z);
-    var topVertex = new THREE.Vector3(x,y+height,z);
-    var bottomVertex = new THREE.Vector3(x+bottom,y,z);
-
-    var base_clone = base.clone();
-    var topVertex_clone = topVertex.clone();
-    var bottomVertex_clone = bottomVertex.clone();
-
-    var diagonalVertex = topVertex.clone();
-    diagonalVertex.sub(bottomVertex);
-    diagonalVertex.divideScalar(numberOfSquares);
-
-    var diagonal = diagonalVertex.length();
-
-    var unitHeight = Math.sqrt(diagonal);
-    unitHeight = unitHeight/(1+ratio);
-    var unitWidth = ratio*unitHeight;
+   createTriangleChain(x,y,z,height,bottom,rotation,segmentation,normalOrientation,orientation){
 
     var final = new THREE.Geometry();
-    base_clone.set(bottomVertex.x-unitWidth,bottomVertex.y,bottomVertex.z);
-    topVertex_clone.set(base_clone.x+unitWidth,base_clone.y+unitHeight,base_clone.z);
 
-    for(var i=0; i<numberOfSquares;i++){
-      var triangle = this.createTriangle(base_clone,topVertex_clone,bottomVertex);
-      triangle.translate(diagonalVertex.x*i,diagonalVertex.y*i,0);
-      final.merge(triangle);
+    if( orientation == "right"){
+      var base = new THREE.Vector3(x,y,z);
+      var topVertex = new THREE.Vector3(x,y+height,z);
+      var bottomVertex = new THREE.Vector3(x+bottom,y,z);
     }
+    else{
+      var base = new THREE.Vector3(x+bottom,y,z);
+      var topVertex = new THREE.Vector3(x+bottom,y+height,z);
+      var bottomVertex = new THREE.Vector3(x,y,z);
+    }
+
+    var padding = new THREE.Vector3(bottom/segmentation,height/segmentation,0);
+    var base = new THREE.Vector3(x,y,z);
+    var baseHeight = padding.y;
+    var baseWidth = bottom-padding.x;
+
+    var row;
+
+    if(normalOrientation ==1){
+      for(var i=0; i<segmentation;i++){
+        var row = this.createRectangle(x,y,z,0.5,baseHeight,baseWidth);
+        baseWidth -=padding.x;
+        row.translate(0,5*i,0);
+        //var triangle = this.createTriangle(base,topVertex,bottomVertex);
+      }
+      final.merge(row);
+    }
+    else
+      var triangle = this.createTriangle(base,bottomVertex,topVertex);
+
+    
 
     if(rotation!=null){
       final.rotateX(rotation.x);
@@ -157,6 +161,7 @@ class Item extends THREE.Object3D {
       final.rotateZ(rotation.z);
     }
     return final;
+   
    }
 
 

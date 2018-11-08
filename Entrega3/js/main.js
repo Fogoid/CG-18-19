@@ -4,6 +4,8 @@ var clock, delta;
 var keys = [];
 var size = 50;
 var plane, sun, cloud;
+var cloudLambertMaterial, cloudPhongMaterial;
+var nightColor, dayColor;
 var spotlights = [];
 var turnSpotLights = [0, 0, 0, 0], turnSun = 0;
 
@@ -22,8 +24,11 @@ function createSpotlights() {
 function createScene() {
     'use strict';
 
+    nightColor = new THREE.Color(0x080823);
+    dayColor = new THREE.Color( 0x7EC0EE );
+
     scene = new THREE.Scene();
-    scene.background = new THREE.Color( 0x7EC0EE );
+    scene.background = dayColor;
     scene.add(new THREE.AxisHelper(10));
 
 
@@ -32,8 +37,9 @@ function createScene() {
     scene.add(plane);
 
     var geometry = new THREE.PlaneGeometry(60,60);
-    var material = new THREE.MeshLambertMaterial();
-    cloud = new THREE.Mesh(geometry,material);
+    cloudLambertMaterial = new THREE.MeshLambertMaterial();
+    cloudPhongMaterial = new THREE.MeshPhongMaterial();
+    cloud = new THREE.Mesh(geometry,cloudLambertMaterial);
     cloud.rotateX(-Math.PI/2);
     cloud.position.set(0,-20,0);
     scene.add(cloud);
@@ -97,10 +103,15 @@ function update() {
     delta = clock.getDelta();
 
     if (keys[71]) {
+        cloud.material = cloud.material == cloudLambertMaterial ? cloudPhongMaterial : cloudLambertMaterial;
         plane.changeChildrenMaterial();
         keys[71] = false;
     }
     if (keys[78]) {
+        if(sun.intensity==1)
+            scene.background = nightColor;
+        else
+            scene.background = dayColor;
         sun.intensity = sun.intensity == 0 ? 1 : 0;
         keys[78] = false;
     }
