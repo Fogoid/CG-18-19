@@ -3,7 +3,7 @@ var speedup = 10;
 var clock, delta;
 var keys = [];
 var size = 50;
-var plane, sun;
+var plane, sun, cloud;
 var spotlights = [];
 var turnSpotLights = [0, 0, 0, 0], turnSun = 0;
 
@@ -23,15 +23,24 @@ function createScene() {
     'use strict';
 
     scene = new THREE.Scene();
-    //scene.background = new THREE.Color( 0x779ecb );
+    scene.background = new THREE.Color( 0x7EC0EE );
     scene.add(new THREE.AxisHelper(10));
+
 
     plane = new Plane(0, 0, 0, 4, 10);
     plane.position.set(0,0,0);
     scene.add(plane);
 
-    sun = new THREE.PointLight( 0xffffff, 2, 100 );
-    sun.position.set( 0, 15, 0);
+    var geometry = new THREE.PlaneGeometry(60,60);
+    var material = new THREE.MeshLambertMaterial();
+    cloud = new THREE.Mesh(geometry,material);
+    cloud.rotateX(-Math.PI/2);
+    cloud.position.set(0,-20,0);
+    scene.add(cloud);
+
+    sun = new THREE.DirectionalLight( 0xffffff, 1);
+    sun.castShadow = true;
+    sun.position.set( 0, 25, 0);
     scene.add(sun);
 
     createSpotlights();
@@ -127,6 +136,8 @@ function init() {
     renderer = new THREE.WebGLRenderer({
         antialias: true
     });
+    renderer.shadowMap.enabled;
+    renderer.shadowMap.autoUpdate;
 
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);

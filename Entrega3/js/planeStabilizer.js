@@ -8,13 +8,9 @@ class PlaneStabilizer extends Item {
       var height = 3;
       var width = 2;
       var depth = 4;
-      var fuselageWidth = 10;
-      var fuselageHeight = 5;
-      var fuselageDepth = 20;
       var angle = Math.atan(fuselageHeight/((fuselageWidth - fuselageWidth/5)/2));
 
       var diagonal = Math.sqrt(Math.pow(height,2) + Math.pow(depth,2)); 
-      //var diagonal=5;
       var angle = Math.atan(height/depth);
 
 	  var stabilizerFront = super.createRectangle(x-width/2, y-diagonal/2, z, squareSize, diagonal, width, new THREE.Vector3(-(Math.PI/2-angle),0,0), 1);

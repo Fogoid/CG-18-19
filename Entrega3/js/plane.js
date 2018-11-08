@@ -13,7 +13,10 @@ class Plane extends Item{
         this.add(planeWings);       
 
         var planeStabilizers = new PlaneStabilizer(x,y,z,5,10,20);
-        this.add(planeStabilizers);       
+        this.add(planeStabilizers);
+
+        var planeCockpit = new PlaneCockpit(x,y,z,5,10,20);
+        this.add(planeCockpit);        
     }
 
     changeChildrenMaterial() {
