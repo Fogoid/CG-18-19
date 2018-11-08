@@ -70,16 +70,10 @@ class Item extends THREE.Object3D {
 
      var middleRectangle = this.createRectangle(x-widthTop/2, y-height/2, z, squareSize, height, widthTop, null,normalOrientation);
 
-     /*var leftTriangle = this.createBigTriangle(x, y-height/2, z, height, (widthBottom-widthTop)/2, null ,normalOrientation,"left");
+     var leftTriangle = this.createTriangleChain(x, y-height/2, z, height, (widthBottom-widthTop)/2, null ,10,normalOrientation,"left");
      leftTriangle.translate(-(widthTop/2+(widthBottom-widthTop)/2),0,0);
 
-     var rightTriangle = this.createBigTriangle(x, y-height/2, z, height, (widthBottom-widthTop)/2,null,-normalOrientation,"right");
-     rightTriangle.translate(widthTop/2,0,0);*/
-
-     var leftTriangle = this.createTriangleChain(x, y-height/2, z, height, (widthBottom-widthTop)/2, null ,20,normalOrientation,"left");
-     leftTriangle.translate(-(widthTop/2+(widthBottom-widthTop)/2),0,0);
-
-     var rightTriangle = this.createTriangleChain(x, y-height/2, z, height, (widthBottom-widthTop)/2,null,20,-normalOrientation,"right");
+     var rightTriangle = this.createTriangleChain(x, y-height/2, z, height, (widthBottom-widthTop)/2,null,10,-normalOrientation,"right");
      rightTriangle.translate(widthTop/2,0,0);
 
      final.merge(middleRectangle);
@@ -183,6 +177,11 @@ class Item extends THREE.Object3D {
     this.mesh.material = this.mesh.material == this.lambertMaterial ? this.phongMaterial : this.lambertMaterial;
     this.lastMaterial = this.mesh.material;
   }
+
+  
+  changeWireframe() {
+    this.mesh.material.wireframe = !this.mesh.material.wireframe;
+  }  
 
   switchCalculus() {
     this.mesh.material = this.mesh.material == this.lastMaterial ? this.basicMaterial : this.lastMaterial;

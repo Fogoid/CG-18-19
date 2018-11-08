@@ -39,7 +39,5 @@ class PlaneCockpit extends Item {
     this.lastMaterial = this.lambertMaterial;
     this.mesh = new THREE.Mesh(left, this.lambertMaterial);
     this.add(this.mesh);
-
-
   }
 }

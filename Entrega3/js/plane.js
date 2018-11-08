@@ -26,12 +26,19 @@ class Plane extends Item{
         }
     }
 
+    changeChildrenWireframe() {
+
+        for (var i=0; i < this.children.length; i++) {
+          this.children[i].changeWireframe();
+        }
+    }
+
     switchCalculus(){
         for (var i = 0; i < this.children.length; i++){
             this.children[i].switchCalculus();
         }
     }
-
+    
     makeHorizontalMovement(side, delta){
         this.rotation.set(this.rotation.x, this.rotation.y + side*delta*2, 0);
     }

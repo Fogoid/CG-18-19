@@ -85,6 +85,7 @@ function onKeyDown(e) {
         case 39: //right arrow key
         case 40: //down arrow key
         case 78: //N ->	switch the ambient light
+        case 79: //O -> wireframe
             keys[e.keyCode] = true;
             break;
         case 49: //1 -> switch spotlight[0]
@@ -99,11 +100,6 @@ function onKeyDown(e) {
 function update() {
     delta = clock.getDelta();
 
-    if (keys[76]) {
-        calculus = !calculus;
-        plane.switchCalculus();
-        keys[76] = false;
-    }
     if (keys[71]) {
         if (calculus){
             cloud.changeMaterial();
@@ -111,6 +107,19 @@ function update() {
         }
         keys[71] = false;
     }
+
+    if (keys[76]) {
+        calculus = !calculus;
+        plane.switchCalculus();
+        keys[76] = false;
+    }
+
+    if (keys[79]){
+        cloud.changeWireframe();
+        plane.changeChildrenWireframe();
+        keys[79] = false;
+    }
+
     if (keys[78]) {
         if(sun.intensity==1)
             scene.background = nightColor;

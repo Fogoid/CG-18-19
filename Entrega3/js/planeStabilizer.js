@@ -65,22 +65,6 @@ class PlaneStabilizer extends Item {
       stabilizerFront.merge(leftStabilizerFront);
       stabilizerFront.merge(rightStabilizerFront);
 
-      /*var stabilizerLeft = stabilizerFront.clone();
-      var stabilizerRight = stabilizerFront.clone();
-
-      stabilizerLeft.rotateZ(Math.PI/2);
-      stabilizerLeft.rotateY(-angle);
-      stabilizerLeft.translate(-(fuselageWidth/2-fuselageWidth/10),0,0);
-      
-      stabilizerRight.rotateZ(-Math.PI/2);
-      stabilizerRight.rotateY(angle);
-      stabilizerRight.translate(fuselageWidth/2-fuselageWidth/10,0,0);
-
-      stabilizerFront.merge(stabilizerLeft);
-      stabilizerFront.merge(stabilizerRight);
-      */
-
-
       this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x193D66 } );
       this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0x193D66 } );
       this.basicMaterial = new THREE.MeshBasicMaterial( { color: 0x193D66 } );
