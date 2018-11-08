@@ -48,8 +48,8 @@ class PlaneStabilizer extends Item {
 
       stabilizerFront.translate(0,0,-(fuselageDepth/2+fuselageHeight/2));
 
-      this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
-      this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
+      this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x193D66 } );
+      this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0x193D66 } );
       this.mesh = new THREE.Mesh(stabilizerFront, this.lambertMaterial);
       this.add(this.mesh);
 

@@ -45,8 +45,8 @@ class PlaneWing extends Item {
       rightWing.translate(fuselageWidth/2+wingDepth/2,0,0);
 
       wingTop.merge(rightWing);
-      this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0xff0000 } );
-      this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0xff0000 } );
+      this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x944C72 } );
+      this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0x925860 } );
       this.mesh = new THREE.Mesh(wingTop, this.lambertMaterial);
       this.add(this.mesh);
     }
