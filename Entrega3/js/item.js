@@ -70,10 +70,16 @@ class Item extends THREE.Object3D {
 
      var middleRectangle = this.createRectangle(x-widthTop/2, y-height/2, z, squareSize, height, widthTop, null,normalOrientation);
 
-     var leftTriangle = this.createBigTriangle(x, y-height/2, z, height, (widthBottom-widthTop)/2, null ,normalOrientation,"left");
+     /*var leftTriangle = this.createBigTriangle(x, y-height/2, z, height, (widthBottom-widthTop)/2, null ,normalOrientation,"left");
      leftTriangle.translate(-(widthTop/2+(widthBottom-widthTop)/2),0,0);
 
      var rightTriangle = this.createBigTriangle(x, y-height/2, z, height, (widthBottom-widthTop)/2,null,-normalOrientation,"right");
+     rightTriangle.translate(widthTop/2,0,0);*/
+
+     var leftTriangle = this.createTriangleChain(x, y-height/2, z, height, (widthBottom-widthTop)/2, null ,20,normalOrientation,"left");
+     leftTriangle.translate(-(widthTop/2+(widthBottom-widthTop)/2),0,0);
+
+     var rightTriangle = this.createTriangleChain(x, y-height/2, z, height, (widthBottom-widthTop)/2,null,20,-normalOrientation,"right");
      rightTriangle.translate(widthTop/2,0,0);
 
      final.merge(middleRectangle);
@@ -123,37 +129,44 @@ class Item extends THREE.Object3D {
 
     var final = new THREE.Geometry();
 
+    var padding = new THREE.Vector3(0,0,0);
+
+    padding.x = x+bottom/segmentation;
+    padding.y = x+height/segmentation;
+    var triangle;
+
     if( orientation == "right"){
       var base = new THREE.Vector3(x,y,z);
-      var topVertex = new THREE.Vector3(x,y+height,z);
-      var bottomVertex = new THREE.Vector3(x+bottom,y,z);
-    }
-    else{
-      var base = new THREE.Vector3(x+bottom,y,z);
-      var topVertex = new THREE.Vector3(x+bottom,y+height,z);
-      var bottomVertex = new THREE.Vector3(x,y,z);
-    }
+      var topVertex = new THREE.Vector3(x,y+padding.y,z);
+      var bottomVertex = new THREE.Vector3(x+padding.x,y,z);
 
-    var padding = new THREE.Vector3(bottom/segmentation,height/segmentation,0);
-    var base = new THREE.Vector3(x,y,z);
-    var baseHeight = padding.y;
-    var baseWidth = bottom-padding.x;
-
-    var row;
-
-    if(normalOrientation ==1){
       for(var i=0; i<segmentation;i++){
-        var row = this.createRectangle(x,y,z,0.5,baseHeight,baseWidth);
-        baseWidth -=padding.x;
-        row.translate(0,5*i,0);
-        //var triangle = this.createTriangle(base,topVertex,bottomVertex);
+        if(normalOrientation ==1)
+          triangle = this.createTriangle(base,topVertex,bottomVertex);
+        else
+          triangle = this.createTriangle(base,bottomVertex,topVertex);
+        final.merge(triangle);
+        topVertex.y += padding.y;
+        bottomVertex.x += padding.x;
       }
-      final.merge(row);
     }
-    else
-      var triangle = this.createTriangle(base,bottomVertex,topVertex);
 
-    
+    else{
+      var base = new THREE.Vector3(x+padding.x,y,z);
+      var topVertex = new THREE.Vector3(x+padding.x,y+padding.y,z);
+      var bottomVertex = new THREE.Vector3(x,y,z);
+
+      for(var i=0; i<segmentation;i++){
+        if(normalOrientation ==1)
+          triangle = this.createTriangle(base,topVertex,bottomVertex);
+        else
+          triangle = this.createTriangle(base,bottomVertex,topVertex);
+        final.merge(triangle);
+        topVertex.x += padding.x;
+        topVertex.y += padding.y;
+        base.x += padding.x;
+      }
+    }
 
     if(rotation!=null){
       final.rotateX(rotation.x);
