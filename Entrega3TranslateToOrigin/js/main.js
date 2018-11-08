@@ -3,17 +3,16 @@ var speedup = 10;
 var clock, delta;
 var keys = [];
 var size = 50;
-var plane, sun, cloud;
-var nightColor, dayColor;
+var plane, sun;
 var spotlights = [];
 var turnSpotLights = [0, 0, 0, 0], turnSun = 0;
 
 function createSpotlights() {
 
-    spotlights[0] = new spotLight(25, 25, 25,new THREE.Vector3(Math.PI/4,0,-Math.PI/4));
-    spotlights[1] = new spotLight(25, 25, -25,new THREE.Vector3(-Math.PI/4,0,-Math.PI/4));
-    spotlights[2] = new spotLight(-25, 25, 25,new THREE.Vector3(Math.PI/4,0,Math.PI/4));
-    spotlights[3] = new spotLight(-25, 25, -25,new THREE.Vector3(-Math.PI/4,0,Math.PI/4));
+    spotlights[0] = new spotLight(25, 0, 25);
+    spotlights[1] = new spotLight(25, 0, -25);
+    spotlights[2] = new spotLight(-25, 0, 25);
+    spotlights[3] = new spotLight(-25, 0, -25);
 
     for(var i = 0; i < 4; i++){
         scene.add(spotlights[i]);
@@ -23,26 +22,16 @@ function createSpotlights() {
 function createScene() {
     'use strict';
 
-    nightColor = new THREE.Color(0x080823);
-    dayColor = new THREE.Color( 0x7EC0EE );
-
     scene = new THREE.Scene();
-    scene.background = dayColor;
+    //scene.background = new THREE.Color( 0x779ecb );
     scene.add(new THREE.AxisHelper(10));
-
 
     plane = new Plane(0, 0, 0, 4, 10);
     plane.position.set(0,0,0);
     scene.add(plane);
 
-    cloud = new Cloud(0,0,0);
-    cloud.rotateX(-Math.PI/2);
-    cloud.position.set(0,-20,0);
-    scene.add(cloud);
-
-    sun = new THREE.DirectionalLight( 0xffffff, 1);
-    sun.castShadow = true;
-    sun.position.set( 0, 25, 0);
+    sun = new THREE.PointLight( 0xffffff, 2, 100 );
+    sun.position.set( 0, 15, 0);
     scene.add(sun);
 
     createSpotlights();
@@ -99,15 +88,10 @@ function update() {
     delta = clock.getDelta();
 
     if (keys[71]) {
-        cloud.changeMaterial();
         plane.changeChildrenMaterial();
         keys[71] = false;
     }
     if (keys[78]) {
-        if(sun.intensity==1)
-            scene.background = nightColor;
-        else
-            scene.background = dayColor;
         sun.intensity = sun.intensity == 0 ? 1 : 0;
         keys[78] = false;
     }
@@ -143,8 +127,6 @@ function init() {
     renderer = new THREE.WebGLRenderer({
         antialias: true
     });
-    renderer.shadowMap.enabled;
-    renderer.shadowMap.autoUpdate;
 
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
