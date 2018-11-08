@@ -3,7 +3,7 @@ var speedup = 10;
 var clock, delta;
 var keys = [];
 var size = 50;
-var plane, sun, cloud;
+var plane, sun, cloud, calculus = true;
 var nightColor, dayColor;
 var spotlights = [];
 var turnSpotLights = [0, 0, 0, 0], turnSun = 0;
@@ -79,6 +79,7 @@ function onKeyDown(e) {
 
     switch (e.keyCode) {
         case 71: //G -> Press to change the plane material
+        case 76: //L -> Press to deactivate illumination calculus
         case 37: //left arrow key
         case 38: //up arrow key
         case 39: //right arrow key
@@ -98,9 +99,16 @@ function onKeyDown(e) {
 function update() {
     delta = clock.getDelta();
 
+    if (keys[76]) {
+        calculus = !calculus;
+        plane.switchCalculus();
+        keys[76] = false;
+    }
     if (keys[71]) {
-        cloud.changeMaterial();
-        plane.changeChildrenMaterial();
+        if (calculus){
+            cloud.changeMaterial();
+            plane.changeChildrenMaterial();
+        }
         keys[71] = false;
     }
     if (keys[78]) {

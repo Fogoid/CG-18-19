@@ -83,6 +83,8 @@ class PlaneStabilizer extends Item {
 
       this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x193D66 } );
       this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0x193D66 } );
+      this.basicMaterial = new THREE.MeshBasicMaterial( { color: 0x193D66 } );
+      this.lastMaterial = this.lambertMaterial;
       this.mesh = new THREE.Mesh(stabilizerFront, this.lambertMaterial);
       this.add(this.mesh);
 

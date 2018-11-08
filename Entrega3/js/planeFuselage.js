@@ -62,6 +62,8 @@ class PlaneFuselage extends Item {
 
     this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x885480 } );
     this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0x885480 } );
+    this.basicMaterial = new THREE.MeshBasicMaterial( { color: 0x885480 } );
+    this.lastMaterial = this.lambertMaterial;
     this.mesh = new THREE.Mesh(middleTop, this.lambertMaterial);
     this.add(this.mesh);
 
