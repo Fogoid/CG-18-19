@@ -6,7 +6,7 @@ class PlaneStabilizer extends Item {
 
       var squareSize = 1;
       var height = 3;
-      var width = 2;
+      var width = 1;
       var depth = 4;
       var angle = Math.atan(fuselageHeight/((fuselageWidth - fuselageWidth/5)/2));
 
