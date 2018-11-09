@@ -10,10 +10,12 @@ class spotLight extends Item{
         this.cone.position.set(0,0,0);
         
         var sphereGeometry = new THREE.SphereGeometry(1, 20, 20);
-        var sphereMaterial = new THREE.MeshLambertMaterial( 0xffffff );
-        this.sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        this.sphereLambertMaterial = new THREE.MeshLambertMaterial( {color: 0xffffff, emissive: 0xffffff });
+        this.spherePhongMaterial = new THREE.MeshPhongMaterial( { color: 0x193D66, specular: 0x111111, shininess: 30, emissive: 0xffffff } );
+        this.sphereBasicMaterial = new THREE.MeshBasicMaterial( 0xffffff );
+        this.lastMaterial = this.sphereLambertMaterial;
+        this.sphere = new THREE.Mesh(sphereGeometry, this.sphereLambertMaterial);
         this.sphere.position.set(0, -3.5, 0);
-        this.sphere.material.emissive.set( 0xffffff );
         
         this.light = new THREE.SpotLight( 0xffffff, 1, 60, Math.PI / 6);
         this.light.position.set(0, -3.5, 0);
@@ -32,5 +34,13 @@ class spotLight extends Item{
     turnOnOff(){
         this.light.intensity = this.light.intensity == 0 ? 1 : 0;
         this.sphere.material.emissiveIntensity = this.sphere.material.emissiveIntensity == 0 ? 1 : 0;
+    }
+    
+    changeMaterial(){
+        this.sphere.material = this.sphere.material == this.sphereLambertMaterial ? this.spherePhongMaterial : this.sphereLambertMaterial;
+    }
+
+    switchCalculus(){
+        this.sphere.material = this.sphere.material == this.lastMaterial ? this.sphereBasicMaterial : this.lastMaterial;
     }
 }

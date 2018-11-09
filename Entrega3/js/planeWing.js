@@ -6,7 +6,7 @@ class PlaneWing extends Item {
       super(x, y, z);
 
 
-      var squareSize = 1;
+      var squareSize = .2;
       var height = 3;
       var width = 10;
       var wingDepth = 15;
@@ -45,7 +45,7 @@ class PlaneWing extends Item {
       rightWing.translate(fuselageWidth/2+wingDepth/2,0,0);
 
       wingTop.merge(rightWing);
-      this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x944C72 } );
+      this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x944C72, specular: 0x111111, shininess: 30 } );
       this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0x944C72 } );
       this.basicMaterial = new THREE.MeshBasicMaterial( { color: 0x944C72 } );
       this.lastMaterial = this.lambertMaterial;

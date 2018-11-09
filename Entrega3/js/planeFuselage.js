@@ -4,7 +4,7 @@ class PlaneFuselage extends Item {
 
     super(x, y, z);
 
-    var squareSize = 1;
+    var squareSize = .2;
 
     var middleTop = super.createRectangle(x-width/2, y-depth/2, z, squareSize, depth, width,  new THREE.Vector3(Math.PI/2,0,0), -1);
     middleTop.translate(0,height/2,0);
@@ -60,7 +60,7 @@ class PlaneFuselage extends Item {
     middleTop.merge(frontTop);
     middleTop.merge(backTop);
 
-    this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x885480 } );
+    this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x885480, specular: 0x111111, shininess: 30 } );
     this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0x885480 } );
     this.basicMaterial = new THREE.MeshBasicMaterial( { color: 0x885480 } );
     this.lastMaterial = this.lambertMaterial;

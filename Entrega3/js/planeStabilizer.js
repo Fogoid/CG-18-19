@@ -4,7 +4,7 @@ class PlaneStabilizer extends Item {
 
       super(x, y, z);
 
-      var squareSize = 1;
+      var squareSize = .2;
       var height = 3;
       var width = 1;
       var depth = 4;
@@ -65,7 +65,7 @@ class PlaneStabilizer extends Item {
       stabilizerFront.merge(leftStabilizerFront);
       stabilizerFront.merge(rightStabilizerFront);
 
-      this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x193D66 } );
+      this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x193D66, specular: 0x111111, shininess: 30 } );
       this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0x193D66 } );
       this.basicMaterial = new THREE.MeshBasicMaterial( { color: 0x193D66 } );
       this.lastMaterial = this.lambertMaterial;

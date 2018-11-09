@@ -33,7 +33,7 @@ class PlaneCockpit extends Item {
 
     left.translate(-width/3,fuselageHeight/2,fuselageDepth/3);
 
-    this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x494684 } );
+    this.phongMaterial = new THREE.MeshPhongMaterial( { color: 0x494684, specular: 0x111111, shininess: 30} );
     this.lambertMaterial = new THREE.MeshLambertMaterial( { color: 0x494684 } );
     this.basicMaterial = new THREE.MeshBasicMaterial( { color: 0x494684 } );
     this.lastMaterial = this.lambertMaterial;

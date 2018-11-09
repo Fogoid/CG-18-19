@@ -3,7 +3,7 @@ var speedup = 10;
 var clock, delta;
 var keys = [];
 var size = 50;
-var plane, sun, cloud, calculus = true;
+var plane, sun, calculus = true;
 var nightColor, dayColor;
 var spotlights = [];
 var turnSpotLights = [0, 0, 0, 0], turnSun = 0;
@@ -35,14 +35,9 @@ function createScene() {
     plane.position.set(0,0,0);
     scene.add(plane);
 
-    cloud = new Cloud(0,0,0);
-    cloud.rotateX(-Math.PI/2);
-    cloud.position.set(0,-20,0);
-    scene.add(cloud);
 
     sun = new THREE.DirectionalLight( 0xffffff, 1);
-    sun.castShadow = true;
-    sun.position.set( 0, 25, 0);
+    sun.position.set( 0, 1, 0);
     scene.add(sun);
 
     createSpotlights();
@@ -102,8 +97,9 @@ function update() {
 
     if (keys[71]) {
         if (calculus){
-            cloud.changeMaterial();
             plane.changeChildrenMaterial();
+            for(var i = 0; i < spotlights.length; i++)
+                spotlights[i].changeMaterial();
         }
         keys[71] = false;
     }
@@ -111,11 +107,12 @@ function update() {
     if (keys[76]) {
         calculus = !calculus;
         plane.switchCalculus();
+        for(var i = 0; i < spotlights.length; i++)
+            spotlights[i].switchCalculus();
         keys[76] = false;
     }
 
     if (keys[79]){
-        cloud.changeWireframe();
         plane.changeChildrenWireframe();
         keys[79] = false;
     }
