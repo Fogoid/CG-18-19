@@ -4,7 +4,7 @@ class PlaneFuselage extends Item {
 
     super(x, y, z);
 
-    var squareSize = .2;
+    var squareSize = 1;
 
     var middleTop = super.createRectangle(x-width/2, y-depth/2, z, squareSize, depth, width,  new THREE.Vector3(Math.PI/2,0,0), -1);
     middleTop.translate(0,height/2,0);
@@ -39,10 +39,10 @@ class PlaneFuselage extends Item {
     var diagonal = Math.sqrt(Math.pow((width - width/5)/2,2) + Math.pow(height,2)); 
     var angle = Math.atan(height/((width - width/5)/2));
 
-    var frontLeft = super.createRectangle(x-diagonal/2,y-height/2,z, squareSize, height, diagonal,new THREE.Vector3(0,angle,0),1);
+    var frontLeft = super.createRectangle(x-diagonal/2,y-height/2,z, diagonal/10, height, diagonal,new THREE.Vector3(0,angle,0),1);
     frontLeft.translate(width/2-width/5,0,0);
 
-    var frontRight = super.createRectangle(x-diagonal/2,y-height/2,z, squareSize, height, diagonal,new THREE.Vector3(0,-angle,0),1);
+    var frontRight = super.createRectangle(x-diagonal/2,y-height/2,z, diagonal/10, height, diagonal,new THREE.Vector3(0,-angle,0),1);
     frontRight.translate(-width/2+width/5,0,0);
     
 

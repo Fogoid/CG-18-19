@@ -4,7 +4,7 @@ class PlaneStabilizer extends Item {
 
       super(x, y, z);
 
-      var squareSize = .2;
+      var squareSize = 1;
       var height = 3;
       var width = 1;
       var depth = 4;
@@ -13,7 +13,7 @@ class PlaneStabilizer extends Item {
       var diagonal = Math.sqrt(Math.pow(height,2) + Math.pow(depth,2)); 
       var angle = Math.atan(height/depth);
 
-      var stabilizerFront = super.createRectangle(x-width/2, y-diagonal/2, z, squareSize, diagonal, width, new THREE.Vector3(-(Math.PI/2-angle),0,0), 1);
+      var stabilizerFront = super.createRectangle(x-width/2, y-diagonal/2, z, diagonal/5, diagonal, width, new THREE.Vector3(-(Math.PI/2-angle),0,0), 1);
 	stabilizerFront.translate(0,(3*y+height)/6,(3*x+depth)/6);
 
 	var stabilizerLeft = super.createBigTriangle(x-(3*x+depth)/3, y-(3*y+height)/3, z, height, depth, new THREE.Vector3(0,-Math.PI/2,0), -1,"right");
@@ -33,7 +33,7 @@ class PlaneStabilizer extends Item {
 
 
 
-      var leftStabilizerFront = super.createRectangle(x-width/2, y-diagonal/2, z, squareSize, diagonal, width, new THREE.Vector3(-(Math.PI/2-angle),0,0), 1);
+      var leftStabilizerFront = super.createRectangle(x-width/2, y-diagonal/2, z, diagonal/10, diagonal, width, new THREE.Vector3(-(Math.PI/2-angle),0,0), 1);
       leftStabilizerFront.translate(0,(3*y+height)/6,(3*x+depth)/6);
 
       var leftStabilizerLeft = super.createBigTriangle(x-(3*x+depth)/3, y-(3*y+height)/3, z, height, depth, new THREE.Vector3(0,-Math.PI/2,0), -1,"right");

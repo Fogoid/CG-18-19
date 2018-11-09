@@ -6,7 +6,7 @@ class PlaneWing extends Item {
       super(x, y, z);
 
 
-      var squareSize = .2;
+      var squareSize = 1;
       var height = 3;
       var width = 10;
       var wingDepth = 15;
@@ -24,10 +24,10 @@ class PlaneWing extends Item {
       var diagonal = Math.sqrt(Math.pow((width - width/10)/2,2) + Math.pow(wingDepth,2)); 
       var angle = Math.atan(wingDepth/((width - width/10)/2));
 
-      var wingLeft = super.createRectangle(x-diagonal/2,y-height/2,z, squareSize, height, diagonal,new THREE.Vector3(0,angle,0),1);
+      var wingLeft = super.createRectangle(x-diagonal/2,y-height/2,z, diagonal/10, height, diagonal,new THREE.Vector3(0,angle,0),1);
       wingLeft.translate(width/2-width/5-0.2,0,0);
 
-      var wingRight = super.createRectangle(x-diagonal/2,y-height/2,z, squareSize, height, diagonal,new THREE.Vector3(0,-angle,0),1);
+      var wingRight = super.createRectangle(x-diagonal/2,y-height/2,z, diagonal/10, height, diagonal,new THREE.Vector3(0,-angle,0),1);
       wingRight.translate(-width/2+width/5+0.2,0,0);
     
 
