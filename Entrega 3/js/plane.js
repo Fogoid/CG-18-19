@@ -40,10 +40,10 @@ class Plane extends Item{
     }
     
     makeHorizontalMovement(side, delta){
-        this.rotation.set(this.rotation.x, this.rotation.y + side*delta*2, 0);
+        this.rotateOnAxis(this.Axisy, side*delta*2);
     }
 
     makeVerticalMovement(side, delta){
-        this.rotation.set(this.rotation.x + side*delta*2, this.rotation.y, 0);
+        this.rotateOnAxis(this.Axisx, side*delta*2);
     }
 }
