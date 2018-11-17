@@ -2,37 +2,39 @@ var scene, renderer, camera, controls;
 var speedup = 10;
 var clock, delta;
 var keys = [];
+var objects = [];
+var pointLight, directionalLight;
+var ball;
+var dayColor;
 var size = 50;
-var sun, spotlight, calculus = true;
-var board, ball, cube;
-var moveBall = 1;
-var paused = 0, pausedTxt;
-var nightColor, dayColor;
 
 function createScene() {
     'use strict';
 
-    nightColor = new THREE.Color(0x080823);
     dayColor = new THREE.Color( 0x7EC0EE );
 
     scene = new THREE.Scene();
     scene.background = dayColor;
     scene.add(new THREE.AxisHelper(10));
 
-    sun = new THREE.DirectionalLight( 0xffffff, 1 );
-    sun.position.set( 1, 1, 0 );
-    scene.add(sun);
+    directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
+    directionalLight.position.set( 1, 1, 0 );
+    scene.add(directionalLight);
 
-    spotlight = new spotLight( 25, 25, 25, new THREE.Vector3(Math.PI/4,0,-Math.PI/4) );
-    scene.add(spotlight);
+    pointLight = new THREE.PointLight( 0xffffff );
+    pointLight.position.set(20,10,20); 
+    scene.add(pointLight);
 
-    board = new chessBoard(0, 0, 0, 100, 100, 3*Math.PI / 2);
+    var board = new chessBoard(0, 0, 0, 100, 100, 3*Math.PI / 2);
+    objects.push(board);
     scene.add(board);
 
     ball = new poolBall(0, 40, 8);
+    objects.push(ball);
     scene.add(ball);
 
-    cube = new rubikCube(0, 0, 15, 15, 15);
+    var cube = new rubikCube(0, 0, 15, 15, 15);
+    objects.push(cube);
     scene.add(cube);
 
 }
@@ -53,7 +55,18 @@ function onResize() {
 function onKeyDown(e) {
     'use strict'
 
-    keys[e.keyCode] = true;
+    switch(e.keyCode){
+        case 66: //B -> Start/stop ball movement
+        case 68: //D -> Switch the directional light
+        case 76: //L -> Deactivate/activate  light calculus
+        case 80: //P -> Switch the point light
+        case 82: //R -> Reset Status
+        case 83: //S -> Pause/unpause visualisation
+        case 87: //W -> Wireframe
+            keys[e.keyCode] = true;
+            break;
+    }
+    
 }
 
 function update() {
@@ -61,59 +74,52 @@ function update() {
 
     delta = clock.getDelta();
 
-    if (keys[68]) { //D -> Switch between on off directional light
-        if(!paused)
-            sun.intensity = sun.intensity == 0? 1 : 0;
-        keys[68] = false;
-    }
-
-    if (keys[80]) { //P -> Switch between on off point light
-        if(!paused)
-            spotlight.turnOnOff();
-        keys[80] = false;
-    }
-
-    if (keys[87]){ //W -> Wireframe
-        board.changeWireframe();
-        ball.changeWireframe();
-        cube.changeWireframe();
-        keys[87] = false;
-    }
-
-    if (keys[76]) { //L -> Deactivate/activate calculus
-        if(!paused){
-            board.switchCalculus();
-            ball.switchCalculus();
-            cube.switchCalculus();
-        }
-        keys[76] = false;
-    }
 
     if (keys[66]) { //B -> Start/stop ball movement
-        if (!paused)
-            ball.changeVelocity();
+        ball.changeVelocity();
         keys[66] = false;
     }
 
-    if (keys[83]) { //S -> Pause/unpause visualisation
-        paused = !paused;
-        keys[83] = false;
+    if (keys[68]) { //D -> Switch between on off directional light
+        directionalLight.intensity = directionalLight.intensity == 0 ? 1 : 0;
+        keys[68] = false;
+    }
+
+    if (keys[76]) { //L -> Deactivate/activate calculus
+        for(var i=0; i<objects.length;i++)
+            objects[i].switchCalculus();
+        keys[76] = false;
     }
     
+    if (keys[80]) { //P -> Switch between on off point light
+        pointLight.intensity = pointLight.intensity == 0 ? 1 : 0;
+        keys[80] = false;
+    }
+
     if (keys[82]) { //R -> Reset Status
-        if(paused){
-            board.reset();
-            ball.reset();
-            cube.reset();
-            resetCamera();
-            paused = 0;
+        if(!clock.running){
+            for(var i=0; i<objects.length;i++)
+                objects[i].reset();
         }
         keys[82] = false;
     }
 
-    if (!paused)
-        ball.updatePosition(delta);
+    if (keys[83]) { //S -> Pause/unpause visualisation
+        if(clock.running)
+            clock.stop();
+        else
+            clock.start();
+        keys[83] = false;
+    }
 
+    if (keys[87]){ //W -> Wireframe
+        for(var i=0; i<objects.length;i++)
+            objects[i].changeWireframe();
+        keys[87] = false;
+    }
+
+    if(clock.running)
+        ball.updatePosition(delta);
 
 }
 
@@ -136,6 +142,8 @@ function init() {
     document.body.appendChild(renderer.domElement);
 
     clock = new THREE.Clock();
+    clock.autoStart = false;
+    clock.start();
 
     createScene();
     createCameras(size);

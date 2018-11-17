@@ -8,9 +8,6 @@ class poolBall extends Item {
 		var origin = new THREE.Vector3(0, 0, 0);
 		this.radiusToCenter = origin.distanceTo(new THREE.Vector3(x, 0, z));
 		this.radius = radius;
-		this.superiorLimit = 3;
-		this.inferiorLimit = 0;
-		this.acceleration = 5;
 		this.theta = Math.PI / 2
 		this.velocity = 1;
 		this.acceleration = 0;
@@ -18,7 +15,6 @@ class poolBall extends Item {
 		var geometry = new THREE.SphereGeometry(radius,32,32)
 		this.basicMaterial = new THREE.MeshBasicMaterial({ color: 0xffffbd});
 		this.phongMaterial = new THREE.MeshPhongMaterial({ color: 0xffffbd, specular: 0x111111 });
-		this.phongMaterial //adicionar o material phong
 		this.mesh = new THREE.Mesh(geometry, this.phongMaterial);
 
 		this.add(this.mesh);
