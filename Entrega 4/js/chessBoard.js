@@ -6,10 +6,10 @@ class chessBoard extends Item{
         super(x, y, z);
 
         var geometry = new THREE.PlaneGeometry(height, width, 100, 100);
-        /*var boardTexture = new THREE.TextureLoader().load("textures/chessBoard.png");
+        var boardTexture = new THREE.TextureLoader().load("textures/chessBoard.png");
         boardTexture.wrapS = THREE.RepeatWrapping;
         boardTexture.wrapT = THREE.RepeatWrapping;
-        boardTexture.repeat.set(4,4);*/
+        boardTexture.repeat.set(4,4);
 
 
         this.basicMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );

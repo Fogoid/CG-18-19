@@ -13,6 +13,7 @@ function createCameras(size) {
     camera.lookAt(scene.position);
     controls = new THREE.OrbitControls(camera);
     camera.add(new chessBoard(0,0,-10,10,10,0));
+    
 }
 
 function resize_Aux() {
@@ -39,4 +40,8 @@ function resetCamera(){
     camera.position.z = 2*size;//size;
     camera.lookAt(scene.position);
     controls = new THREE.OrbitControls(camera);
+}
+
+function getCameraPos(){
+    return new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
 }

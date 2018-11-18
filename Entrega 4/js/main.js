@@ -6,6 +6,7 @@ var objects = [];
 var pointLight, directionalLight;
 var ball;
 var dayColor;
+var pauseTxt;
 var size = 50;
 
 function createScene() {
@@ -36,7 +37,9 @@ function createScene() {
     var cube = new rubikCube(0, 0, 15, 15, 15);
     objects.push(cube);
     scene.add(cube);
-
+    
+    pauseTxt = new pausedText();
+    scene.add(pauseTxt);
 }
 
 function onResize() {
@@ -100,6 +103,7 @@ function update() {
         if(!clock.running){
             for(var i=0; i<objects.length;i++)
                 objects[i].reset();
+            clock.start();
         }
         keys[82] = false;
     }
@@ -109,6 +113,7 @@ function update() {
             clock.stop();
         else
             clock.start();
+        pauseTxt.visible = !pauseTxt.visible;
         keys[83] = false;
     }
 
@@ -118,8 +123,8 @@ function update() {
         keys[87] = false;
     }
 
-    if(clock.running)
-        ball.updatePosition(delta);
+    pauseTxt.setPosition(getCameraPos());
+    ball.updatePosition(delta);
 
 }
 
