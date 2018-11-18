@@ -103,7 +103,9 @@ function update() {
         if(!clock.running){
             for(var i=0; i<objects.length;i++)
                 objects[i].reset();
+            resetCamera();
             clock.start();
+            pauseTxt.visible = !pauseTxt.visible;
         }
         keys[82] = false;
     }
@@ -123,8 +125,10 @@ function update() {
         keys[87] = false;
     }
 
-    pauseTxt.setPosition(getCameraPos());
-    ball.updatePosition(delta);
+    if(!clock.running)
+        pauseTxt.setPosition(getCameraPos());
+    else
+        ball.updatePosition(delta);
 
 }
 

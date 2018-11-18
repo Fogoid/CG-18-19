@@ -10,7 +10,7 @@ class poolBall extends Item {
 		this.radius = radius;
 		this.theta = Math.PI / 2
 		this.velocity = 1;
-		this.acceleration = 0;
+		this.updatePosition(this.getRandomDelta());
 
 		var geometry = new THREE.SphereGeometry(radius,32,32)
 		this.basicMaterial = new THREE.MeshBasicMaterial({ color: 0xffffbd});
@@ -36,7 +36,12 @@ class poolBall extends Item {
 	reset(){
 		super.reset();
 		this.theta = Math.PI / 2;
+		this.updatePosition(this.getRandomDelta());
 		this.velocity = 1;
 
+	}
+
+	getRandomDelta(){
+		return Math.random()*6.3;
 	}
 }

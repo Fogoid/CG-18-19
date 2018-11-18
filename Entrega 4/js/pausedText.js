@@ -6,8 +6,8 @@ class pausedText extends Item{
 
 
         var geometry = new THREE.PlaneGeometry(40, 20);
-        var phongMaterial = new THREE.MeshPhongMaterial({ color: 0x0000ff, specular: 0x111111 });
-        this.mesh = new THREE.Mesh(geometry, phongMaterial);
+        var basicMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+        this.mesh = new THREE.Mesh(geometry, basicMaterial);
 
         this.add(this.mesh);
 
