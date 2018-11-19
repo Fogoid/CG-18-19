@@ -11,7 +11,7 @@ class pausedText extends Item{
         pausedTexture.wrapT = THREE.RepeatWrapping;
         pausedTexture.repeat.set(1,1);
 
-        var basicMaterial = new THREE.MeshBasicMaterial( { map: pausedTexture, color: 0xffffff,transparent:true} );
+        var basicMaterial = new THREE.MeshBasicMaterial( { map: pausedTexture, color: 0xffffff, transparent:true} );
         this.mesh = new THREE.Mesh(geometry, basicMaterial);
 
         this.add(this.mesh);

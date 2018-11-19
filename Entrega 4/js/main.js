@@ -18,12 +18,12 @@ function createScene() {
     scene.background = bgColor;
     scene.add(new THREE.AxisHelper(10));
 
-    directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
-    directionalLight.position.set( 1, 1, 0 );
+    directionalLight = new THREE.DirectionalLight( 0xaaaaaa, 1 );
+    directionalLight.position.set( 1, 1, 1 );
     scene.add(directionalLight);
 
-    pointLight = new THREE.PointLight( 0xffffff );
-    pointLight.position.set(30,30,30); 
+    pointLight = new THREE.PointLight( 0x777777, 1, 150, 1);
+    pointLight.position.set(-30,50,-30); 
     scene.add(pointLight);
 
     var board = new chessBoard(0, 0, 0, 100, 100, 3*Math.PI / 2);

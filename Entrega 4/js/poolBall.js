@@ -15,7 +15,7 @@ class poolBall extends Item {
 		var ballTexture = new THREE.TextureLoader().load("textures/ball.png");
 		var geometry = new THREE.SphereGeometry(radius,32,32)
 		this.basicMaterial = new THREE.MeshBasicMaterial({ color: 0xffffbd});
-		this.phongMaterial = new THREE.MeshPhongMaterial({ map: ballTexture, color: 0xffffff, specular: 0xffffff, shininess: 1 });
+		this.phongMaterial = new THREE.MeshPhongMaterial({ map: ballTexture, color: 0x555555, specular: 0xffffff, shininess: 2 });
 		this.mesh = new THREE.Mesh(geometry, this.phongMaterial);
 
 		this.add(this.mesh);
