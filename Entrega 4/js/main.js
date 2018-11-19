@@ -5,17 +5,17 @@ var keys = [];
 var objects = [];
 var pointLight, directionalLight;
 var ball;
-var dayColor;
+var bgColor;
 var pauseTxt;
 var size = 50;
 
 function createScene() {
     'use strict';
 
-    dayColor = new THREE.Color( 0x7EC0EE );
+    bgColor = new THREE.Color( 0xd7abb4 );
 
     scene = new THREE.Scene();
-    scene.background = dayColor;
+    scene.background = bgColor;
     scene.add(new THREE.AxisHelper(10));
 
     directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
@@ -23,7 +23,7 @@ function createScene() {
     scene.add(directionalLight);
 
     pointLight = new THREE.PointLight( 0xffffff );
-    pointLight.position.set(20,10,20); 
+    pointLight.position.set(30,30,30); 
     scene.add(pointLight);
 
     var board = new chessBoard(0, 0, 0, 100, 100, 3*Math.PI / 2);
