@@ -15,7 +15,7 @@ class poolBall extends Item {
 		var ballTexture = new THREE.TextureLoader().load("textures/ball.png");
 		var geometry = new THREE.SphereGeometry(radius,32,32)
 		this.basicMaterial = new THREE.MeshBasicMaterial({ color: 0xffffbd});
-		this.phongMaterial = new THREE.MeshPhongMaterial({ map: ballTexture, color: 0xffffbd, specular: 0xffffff });
+		this.phongMaterial = new THREE.MeshPhongMaterial({ map: ballTexture, color: 0xffffff, specular: 0xffffff, shininess: 1 });
 		this.mesh = new THREE.Mesh(geometry, this.phongMaterial);
 
 		this.add(this.mesh);
@@ -26,8 +26,12 @@ class poolBall extends Item {
 		'use strict'
 
 		this.theta = this.theta + delta*this.velocity;
-		this.position.x = Math.cos(this.theta)*this.radiusToCenter;
-		this.position.z = Math.sin(this.theta)*this.radiusToCenter;
+		var cosine = Math.cos(this.theta);
+		var sine = Math.sin(this.theta);
+		this.position.x = cosine*this.radiusToCenter;
+		this.position.z = sine*this.radiusToCenter;
+
+		//this.rotation.set(this.rotation.x-delta*this.velocity,this.rotation.y,this.rotation.z);
 	}
 
 	changeVelocity(){
