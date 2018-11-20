@@ -15,12 +15,12 @@ class rubikCube extends Item{
 
 		var cubeFacesPhong = 
 		[
-        	new THREE.MeshPhongMaterial({ map: textureCubeLeft, bumpMap: bump, color: 0xffffff, specular: 0x333333 }),
-        	new THREE.MeshPhongMaterial({ map: textureCubeRight, bumpMap: bump, color: 0xffffff, specular: 0x333333 }),
-        	new THREE.MeshPhongMaterial({ map: textureCubeTop, bumpMap: bump, color: 0xffffff, specular: 0x333333 }),
-        	new THREE.MeshPhongMaterial({ map: textureCubeBottom, bumpMap: bump, color: 0xffffff, specular: 0x333333 }),
-        	new THREE.MeshPhongMaterial({ map:  textureCubeFront, bumpMap: bump, color: 0xffffff, specular: 0x333333 }),
-        	new THREE.MeshPhongMaterial({ map: textureCubeBack, bumpMap: bump, color: 0xffffff, specular: 0x333333 })
+        	new THREE.MeshPhongMaterial({ map: textureCubeLeft, bumpMap: bump, color: 0xffffff, specular: 0x333333, wireframe: false }),
+        	new THREE.MeshPhongMaterial({ map: textureCubeRight, bumpMap: bump, color: 0xffffff, specular: 0x333333, wireframe: false }),
+        	new THREE.MeshPhongMaterial({ map: textureCubeTop, bumpMap: bump, color: 0xffffff, specular: 0x333333, wireframe: false }),
+        	new THREE.MeshPhongMaterial({ map: textureCubeBottom, bumpMap: bump, color: 0xffffff, specular: 0x333333, wireframe: false }),
+        	new THREE.MeshPhongMaterial({ map:  textureCubeFront, bumpMap: bump, color: 0xffffff, specular: 0x333333, wireframe: false }),
+        	new THREE.MeshPhongMaterial({ map: textureCubeBack, bumpMap: bump, color: 0xffffff, specular: 0x333333, wireframe: false })
 		];
         this.phongMaterial = new THREE.MeshFaceMaterial(cubeFacesPhong);
 		
@@ -45,7 +45,8 @@ class rubikCube extends Item{
     }
 
     changeWireframe() {
-        for(var i=0; i<6; i++)
-            this.mesh.material.materials[i].wireframe = !this.mesh.material.materials[i].wireframe;
+        for(var i=0; i<6; i++){
+            this.mesh.material.materials[i].wireframe = !this.mesh.material.materials[i].wireframe
+        }
     }
 }

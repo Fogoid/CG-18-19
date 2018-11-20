@@ -1,4 +1,4 @@
-var scene, renderer, camera, controls;
+var scene, writeScene, renderer, camera, writeCamera, controls;
 var speedup = 10;
 var clock, delta;
 var keys = [];
@@ -15,6 +15,8 @@ function createScene() {
     bgColor = new THREE.Color( 0xd7abb4 );
 
     scene = new THREE.Scene();
+    writeScene = new THREE.Scene();
+    writeScene.background = bgColor;
     scene.background = bgColor;
     scene.add(new THREE.AxisHelper(10));
 
@@ -39,7 +41,7 @@ function createScene() {
     scene.add(cube);
     
     pauseTxt = new pausedText();
-    scene.add(pauseTxt);
+    writeScene.add(pauseTxt);
 }
 
 function onResize() {
@@ -105,7 +107,6 @@ function update() {
                 objects[i].reset();
             resetCamera();
             clock.start();
-            pauseTxt.visible = !pauseTxt.visible;
         }
         keys[82] = false;
     }
@@ -115,7 +116,6 @@ function update() {
             clock.stop();
         else
             clock.start();
-        pauseTxt.visible = !pauseTxt.visible;
         keys[83] = false;
     }
 
@@ -125,17 +125,21 @@ function update() {
         keys[87] = false;
     }
 
-    if(!clock.running)
-        pauseTxt.setPosition(getCameraPos());
-    else
-        ball.updatePosition(delta);
+    ball.updatePosition(delta);
 
 }
 
 function render() {
     'use strict';
-    
+
+    renderer.clear();
     renderer.render(scene, camera);
+
+    if(!clock.running){
+        console.log("oi");
+        renderer.render(writeScene,writeCamera);
+    }
+
 }
 
 function init() {
@@ -144,8 +148,8 @@ function init() {
     renderer = new THREE.WebGLRenderer({
         antialias: true
     });
-    renderer.shadowMap.enabled;
-    renderer.shadowMap.autoUpdate;
+
+    renderer.autoClearColor = false;
 
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);

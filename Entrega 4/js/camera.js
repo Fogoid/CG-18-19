@@ -12,6 +12,12 @@ function createCameras(size) {
     camera.position.z = 2*size;//size;
     camera.lookAt(scene.position);
     controls = new THREE.OrbitControls(camera);
+
+    writeCamera = new THREE.OrthographicCamera(-20,20,10,-10,1,100);
+    writeCamera.position.x = 0;//1.8*size;
+    writeCamera.position.y = 0;//1.2*size;
+    writeCamera.position.z = 20;//size;
+    writeCamera.lookAt(writeScene.position);
 }
 
 function resize_Aux() {
@@ -37,7 +43,11 @@ function resetCamera(){
     camera.position.y = 2*size;//1.2*size;
     camera.position.z = 2*size;//size;
     camera.lookAt(scene.position);
-    controls = new THREE.OrbitControls(camera);
+    
+    writeCamera.position.x = 0;
+    writeCamera.position.y = 0;
+    writeCamera.position.z = 20;
+    writeCamera.lookAt(writeScene.position);
 }
 
 function getCameraPos(){
