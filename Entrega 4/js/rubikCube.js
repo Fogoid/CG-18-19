@@ -34,11 +34,18 @@ class rubikCube extends Item{
         	new THREE.MeshBasicMaterial({ map: textureCubeBack, color: 0xffffff })
 		];
         this.basicMaterial = new THREE.MeshFaceMaterial(cubeFacesBasic);
+
+        console.log(this.basicMaterial);
         
         var geometry = new THREE.CubeGeometry(base, height, width, 20, 20, 20);
         
         this.mesh = new THREE.Mesh(geometry, this.phongMaterial);
         this.add(this.mesh);
 
+    }
+
+    changeWireframe() {
+        for(var i=0; i<6; i++)
+            this.mesh.material.materials[i].wireframe = !this.mesh.material.materials[i].wireframe;
     }
 }
