@@ -2,14 +2,42 @@ class rubikCube extends Item{
     constructor(x, z, base, height, width){
         'use strict'
 
-        super(x, height/2, z);
-	
-		var cubeTexture = new THREE.TextureLoader().load("textures/cube.png");
-        var geometry = new THREE.CubeGeometry(base, height, width, 20, 20, 20);
-        this.basicMaterial = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
-        this.phongMaterial = new THREE.MeshPhongMaterial({ map: cubeTexture, color: 0xffffff, specular: 0x111111 });
-        this.mesh = new THREE.Mesh(geometry, this.phongMaterial);
+        super(x, height/2+1, z);
 
+        var textureCubeLeft = new THREE.TextureLoader().load("textures/cubeLeft.png");
+		var textureCubeRight = new THREE.TextureLoader().load("textures/cubeRight.png");
+		var textureCubeTop = new THREE.TextureLoader().load("textures/cubeTop.png");
+		var textureCubeBottom = new THREE.TextureLoader().load("textures/cubeBottom.png");
+		var textureCubeFront = new THREE.TextureLoader().load("textures/cubeFront.png");
+		var textureCubeBack = new THREE.TextureLoader().load("textures/cubeBack.png");
+
+		var bump = new THREE.TextureLoader().load("textures/bump.png");
+
+		var cubeFacesPhong = 
+		[
+        	new THREE.MeshPhongMaterial({ map: textureCubeLeft, bumpMap: bump, color: 0xffffff, specular: 0x333333 }),
+        	new THREE.MeshPhongMaterial({ map: textureCubeRight, bumpMap: bump, color: 0xffffff, specular: 0x333333 }),
+        	new THREE.MeshPhongMaterial({ map: textureCubeTop, bumpMap: bump, color: 0xffffff, specular: 0x333333 }),
+        	new THREE.MeshPhongMaterial({ map: textureCubeBottom, bumpMap: bump, color: 0xffffff, specular: 0x333333 }),
+        	new THREE.MeshPhongMaterial({ map:  textureCubeFront, bumpMap: bump, color: 0xffffff, specular: 0x333333 }),
+        	new THREE.MeshPhongMaterial({ map: textureCubeBack, bumpMap: bump, color: 0xffffff, specular: 0x333333 })
+		];
+        this.phongMaterial = new THREE.MeshFaceMaterial(cubeFacesPhong);
+		
+		var cubeFacesBasic = 
+		[
+        	new THREE.MeshBasicMaterial({ map: textureCubeLeft, color: 0xffffff }),
+        	new THREE.MeshBasicMaterial({ map: textureCubeRight, color: 0xffffff }),
+        	new THREE.MeshBasicMaterial({ map: textureCubeTop, color: 0xffffff }),
+        	new THREE.MeshBasicMaterial({ map: textureCubeBottom, color: 0xffffff }),
+        	new THREE.MeshBasicMaterial({ map: textureCubeFront, color: 0xffffff }),
+        	new THREE.MeshBasicMaterial({ map: textureCubeBack, color: 0xffffff })
+		];
+        this.basicMaterial = new THREE.MeshFaceMaterial(cubeFacesBasic);
+        
+        var geometry = new THREE.CubeGeometry(base, height, width, 20, 20, 20);
+        
+        this.mesh = new THREE.Mesh(geometry, this.phongMaterial);
         this.add(this.mesh);
 
     }

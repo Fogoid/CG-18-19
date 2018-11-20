@@ -3,7 +3,7 @@ class poolBall extends Item {
 	constructor(x,z,radius){
 		'use strict'
 
-		super(x,radius,z);
+		super(x,radius+1,z);
 
 		var origin = new THREE.Vector3(0, 0, 0);
 		this.radiusToCenter = origin.distanceTo(new THREE.Vector3(x, 0, z));
@@ -14,8 +14,8 @@ class poolBall extends Item {
 
 		var ballTexture = new THREE.TextureLoader().load("textures/ball.png");
 		var geometry = new THREE.SphereGeometry(radius,32,32)
-		this.basicMaterial = new THREE.MeshBasicMaterial({ color: 0xffffbd});
-		this.phongMaterial = new THREE.MeshPhongMaterial({ map: ballTexture, color: 0x555555, specular: 0xffffff, shininess: 2 });
+		this.basicMaterial = new THREE.MeshBasicMaterial({map: ballTexture, color: 0xdddddd});
+		this.phongMaterial = new THREE.MeshPhongMaterial({ map: ballTexture, color: 0x6666666, specular: 0xffffff, shininess: 4 });
 		this.mesh = new THREE.Mesh(geometry, this.phongMaterial);
 
 		this.add(this.mesh);

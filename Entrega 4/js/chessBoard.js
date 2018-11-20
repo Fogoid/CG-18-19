@@ -11,7 +11,7 @@ class chessBoard extends Item{
         boardTexture.wrapT = THREE.RepeatWrapping;
         boardTexture.repeat.set(1,1);
 
-        this.basicMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+        this.basicMaterial = new THREE.MeshBasicMaterial( { map: boardTexture, color: 0xffffff } );
         this.phongMaterial = new THREE.MeshPhongMaterial({ map: boardTexture, color: 0xffffff, specular: 0x333333 })
         this.mesh = new THREE.Mesh(geometry, this.phongMaterial);
         this.rotation.x = ang;
