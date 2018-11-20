@@ -8,7 +8,7 @@ class poolBall extends Item {
 		var origin = new THREE.Vector3(0, 0, 0);
 		this.radiusToCenter = origin.distanceTo(new THREE.Vector3(x, 0, z));
 		this.radius = radius;
-		this.theta = Math.PI / 2
+		this.theta = 0;
 		this.velocity = 1;
 		this.updatePosition(this.getRandomDelta());
 
@@ -25,16 +25,22 @@ class poolBall extends Item {
 	updatePosition(delta){
 		'use strict'
 
-		this.theta = this.theta + delta*this.velocity;
-		var cosine = Math.cos(this.theta);
-		var sine = Math.sin(this.theta);
-		this.position.x = cosine*this.radiusToCenter;
-		this.position.z = sine*this.radiusToCenter;
+		var prevTheta = this.theta;
 
-		//this.rotation.set(this.rotation.x-delta*this.velocity,this.rotation.y,this.rotation.z);
+		this.theta = this.theta + delta*this.velocity;
+		this.position.x = Math.sin(this.theta)*this.radiusToCenter;
+		this.position.z = Math.cos(this.theta)*this.radiusToCenter;
+
+		var distance = (this.theta-prevTheta)*this.radiusToCenter;
+		var angle = Math.atan2(distance, this.radius);
+	
+		this.rotation.y = this.theta;
+		this.rotation.z -= angle;	
 	}
 
 	changeVelocity(){
+		'use strict'
+
 		this.velocity = this.velocity == 1 ? 0 : 1;
 	}
 
