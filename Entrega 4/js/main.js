@@ -74,6 +74,11 @@ function onKeyDown(e) {
     
 }
 
+function resetLights(){
+  directionalLight.intensity = 1;
+  pointLight.intensity = 1; 
+}
+
 function update() {
     'use strict'
 
@@ -106,6 +111,7 @@ function update() {
             for(var i=0; i<objects.length;i++)
                 objects[i].reset();
             resetCamera();
+            resetLights();
             clock.start();
         }
         keys[82] = false;

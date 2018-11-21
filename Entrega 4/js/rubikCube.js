@@ -45,8 +45,12 @@ class rubikCube extends Item{
     }
 
     changeWireframe() {
-        for(var i=0; i<6; i++){
-            this.mesh.material.materials[i].wireframe = !this.mesh.material.materials[i].wireframe
-        }
+        for(var i=0; i<6; i++)
+            this.mesh.material.materials[i].wireframe = !this.mesh.material.materials[i].wireframe;
     }
+
+    resetWireframe() {
+        for(var i=0; i<6; i++)
+            this.mesh.material.materials[i].wireframe = false;
+    }  
 }

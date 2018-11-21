@@ -12,6 +12,10 @@ class Item extends THREE.Object3D {
 
   changeWireframe() {
     this.mesh.material.wireframe = !this.mesh.material.wireframe;
+  }
+
+  resetWireframe() {
+    this.mesh.material.wireframe = false;
   }  
 
   switchCalculus() {
@@ -21,5 +25,6 @@ class Item extends THREE.Object3D {
   reset() {
     this.position.set(this.basePosition.x, this.basePosition.y, this.basePosition.z);
     this.mesh.material = this.phongMaterial;
+    this.resetWireframe();
   }
 }
