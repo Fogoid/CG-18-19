@@ -54,6 +54,12 @@ function onResize() {
         camera.updateProjectionMatrix();
     }
 
+    writeCamera.left = -window.innerWidth / camFactor;
+    writeCamera.right = window.innerWidth / camFactor;
+    writeCamera.top = window.innerHeight / camFactor;
+    writeCamera.bottom = -window.innerHeight / camFactor;
+    writeCamera.updateProjectionMatrix();
+    
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
@@ -141,8 +147,8 @@ function render() {
     renderer.clear();
     renderer.render(scene, camera);
 
+    renderer.clearDepth();
     if(!clock.running){
-        console.log("oi");
         renderer.render(writeScene,writeCamera);
     }
 

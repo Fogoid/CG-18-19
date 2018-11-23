@@ -1,4 +1,4 @@
-var camFactor = 20;
+var camFactor = 35;
 
 function createCameras(size) {
     'use strict';
