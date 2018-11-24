@@ -4,13 +4,14 @@ For each project made, u can below see the compences evaluated in each of them
 
 1ª Entrega:
 
-  - Usage of Orthografic cameras
-  - Accelerated movement
+  - Orthografic cameras
+  - Accelerated linear movement
   - Working with scene graphs and geometries
   
 2ª Entrega:
-  - Usage of Orthoraphic vs Perspective cameras
+  - Orthoraphic vs Perspective cameras
   - Colisions between objects
+  - Dynamic position of a camera following an object
   
 3ª Entrega:
   - Different type of lights on the scene
