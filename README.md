@@ -1,26 +1,28 @@
 # CG-18-19
 
-For each project made, u can below see the compences evaluated in each of them
-
+Each delivery had different goals listed below
 1ª Entrega:
 
-  - Orthografic cameras
-  - Accelerated linear movement
-  - Working with scene graphs and geometries
-  
+-Orthografic cameras
+-Accelerated linear movement
+-Modeling a very simple scene using geometries and basic materials for meshes.
+
 2ª Entrega:
-  - Orthoraphic vs Perspective cameras
-  - Colisions between objects
-  - Dynamic position of a camera following an object
-  
+
+-Orthographic vs Perspective cameras
+-Collisions between objects
+-Setting up a 3rd person camera to follow an object
+
 3ª Entrega:
-  - Different type of lights on the scene
-  - Lambert vs Phong materials and the effect of light on it
-  - Creation of a handmade plane using vertices
+
+-Different types of lighting
+-Lambert vs Phong materials and their reactions to light 
+-Creation of objects using handmade polygon meshes
 
 4ª Entrega:
-  - Check between specular and diffuse materials
-  - How textures are applied to a material
-  - Use of bump mapping
-  - Circular movement and the rotation of the ball according to the axes
-  - Directional vs Point light
+
+-Impose different types of reflection on objects
+-Textures
+-Bump mapping
+-Circular movement
+-Directional vs Point light
