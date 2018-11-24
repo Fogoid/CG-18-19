@@ -2,17 +2,17 @@
 
 For each project made, u can below see the compences evaluated in each of them
 
-#1ª Entrega:
+1ª Entrega:
 
   - Usage of Orthografic cameras
   - Accelerated movement
   - Working with scene graphs and geometries
   
-#2ª Entrega:
+2ª Entrega:
   - Usage of Orthoraphic vs Perspective cameras
   - Colisions between objects
   
-#3ª Entrega:
+3ª Entrega:
   - Different type of lights on the scene
   - Lambert vs Phong materials and the effect of light on it
   - Creation of a handmade plane using vertices
