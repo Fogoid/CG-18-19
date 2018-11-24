@@ -3,21 +3,20 @@ var camFactor = 20;
 function createCameras(size, ball) {
     'use strict';
 
-    var left = -window.innerWidth / camFactor;
-    var right = window.innerWidth / camFactor;
-    var top = window.innerHeight / camFactor;
-    var bottom = -window.innerHeight / camFactor;
-    var near = 20;
+    var screen = resize_Aux();
+    
+    var left = screen[0] * -.6;
+    var right = screen[0] * .6;
+    var top = screen[1] * .6;
+    var bottom = screen[1] * .6;
+    var near = 10;
     var far = 100;
-
-
 
     //Creating the camera that looks from the top
     cameraArray[0] = new THREE.OrthographicCamera(left,right,top,bottom,near,far);
     cameraArray[0].position.y = size;
     cameraArray[0].lookAt(scene.position);
     scene.add(cameraArray[0]);
-
 
     //Creating the camera that looks from a cube perpective
     cameraArray[1] = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 500);
@@ -33,18 +32,30 @@ function createCameras(size, ball) {
     cameraArray[2].position.y = ball.radius*4.5;
     cameraArray[2].lookAt(ball.position);
     scene.add(cameraArray[2]);
-}
 
-function updateCamera(camera){
-    camera.left = -window.innerWidth / camFactor;
-    camera.right = window.innerWidth / camFactor;
-    camera.top = window.innerHeight / camFactor;
-    camera.bottom = -window.innerHeight / camFactor;
-    camera.updateProjectionMatrix();
+    onResize();
 }
 
 function updateCameraPos(ball){
     cameraArray[2].position.x = ball.positionX - (ball.velocity.x)/Math.abs(ball.velocity.x)*game_board.radius*2;
     cameraArray[2].position.z = ball.positionZ - (ball.velocity.z)/Math.abs(ball.velocity.z)*game_board.radius*2;
     cameraArray[2].lookAt(ball.position);
+}
+
+function resize_Aux() {
+    'use strict'
+
+    var aspect = 16/9
+    var scale = window.innerWidth / window.innerHeight
+
+    if(scale > aspect) { 
+        var width = scale * 50;
+        var height = 50;
+    }
+    else { 
+        var width = aspect * 50;
+        var height = width / scale;
+    }
+
+    return [width, height]
 }
